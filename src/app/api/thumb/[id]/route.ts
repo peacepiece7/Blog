@@ -1,15 +1,15 @@
 import { deleteDocument } from '@/service/firebase/collection'
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { NextResponse } from 'next/server'
 
-interface Context {
+interface Segments {
   params: { id: string }
 }
 
 // * 썸네일 삭제
-export async function POST(request: Request, ctx: Context) {
+export async function POST(_request: Request, { params }: Segments) {
   try {
-    if (!ctx.params.id)
+    if (!params.id)
       return NextResponse.json(
         { status: 'failure', message: '잘못된 요청입니다.', data: null },
         {
@@ -19,7 +19,7 @@ export async function POST(request: Request, ctx: Context) {
           }
         }
       )
-    await deleteDocument('thumbnails', ctx.params.id)
+    await deleteDocument('thumbnails', params.id)
     // * 캐시 삭제
     // revalidateTag(LOGS_TAG)
     revalidatePath('/')

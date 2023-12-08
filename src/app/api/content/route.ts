@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { revalidateTag, revalidatePath } from 'next/cache'
-import { LOGS_TAG } from '@/constants/tag'
+import { revalidatePath } from 'next/cache'
 import { getStorageContent, updateStorageContent } from '@/service/firebase/storage'
 
 // * 컨텐츠 내용 조회

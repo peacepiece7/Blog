@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { deleteDocument, getDocument } from '@/service/firebase/collection'
-import { revalidatePath, revalidateTag } from 'next/cache'
-import { LOGS_TAG } from '@/constants/tag'
+import { revalidatePath } from 'next/cache'
 
-type Context = {
+type Segments = {
   params: { id: string }
 }
 // * 로그 조회
-export async function GET(_: NextRequest, ctx: Context) {
+export async function GET(_request: NextRequest, { params }: Segments) {
   try {
-    if (!ctx.params.id) {
+    if (!params.id) {
       return NextResponse.json(
         { state: 'failure', data: null, message: '존재하지 않는 아이디입니다.' },
         {
@@ -21,7 +20,7 @@ export async function GET(_: NextRequest, ctx: Context) {
       )
     }
 
-    return getDocument('logs', ctx.params.id).then((data) => {
+    return getDocument('logs', params.id).then((data) => {
       return NextResponse.json(
         {
           state: 'success',
@@ -56,9 +55,9 @@ export type DeleteRequest = {
 }
 
 // * 로그 삭제
-export async function POST(request: Request, ctx: Context) {
+export async function POST(request: Request, { params }: Segments) {
   try {
-    await deleteDocument('logs', ctx.params.id)
+    await deleteDocument('logs', params.id)
 
     // * 캐시 삭제
     // revalidateTag(LOGS_TAG)

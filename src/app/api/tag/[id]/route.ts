@@ -1,23 +1,22 @@
-import { LOGS_TAG } from '@/constants/tag'
 import { deleteDocument, getDocument } from '@/service/firebase/collection'
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
-type Context = {
+type Segments = {
   params: { id: string }
 }
 
-// * 특정 테그 조회 API
-export async function GET(_: NextRequest, ctx: Context) {
+// * 태그 조회
+export async function GET(_request: NextRequest, { params }: Segments) {
   try {
-    if (!ctx.params.id)
+    if (!params.id)
       return NextResponse.json(
         { state: 'failure', data: null, message: '존재하지 않는 아이디입니다.' },
         { status: 404 }
       )
-    return getDocument('tags', ctx.params.id).then((data) =>
+    return getDocument('tags', params.id).then((data) =>
       NextResponse.json(
         { state: 'success', data, message: '태그 조회에 성공했습니다.' },
         {
@@ -42,10 +41,10 @@ export async function GET(_: NextRequest, ctx: Context) {
   }
 }
 
-// * 태그 삭제 API
-export async function POST(request: Request, ctx: Context) {
+// * 태그 삭제
+export async function POST(_request: Request, { params }: Segments) {
   try {
-    if (!ctx.params.id)
+    if (!params.id)
       return NextResponse.json(
         { status: 'failure', message: '잘못된 요청입니다.', data: null },
         {
@@ -55,7 +54,7 @@ export async function POST(request: Request, ctx: Context) {
           }
         }
       )
-    await deleteDocument('tags', ctx.params.id)
+    await deleteDocument('tags', params.id)
     // * 캐시 삭제
     // revalidateTag(LOGS_TAG)
     revalidatePath('/')

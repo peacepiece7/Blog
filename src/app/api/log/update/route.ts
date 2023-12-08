@@ -1,13 +1,12 @@
 import { LogDocument, Log } from '@/models'
 import { NextResponse } from 'next/server'
 import { setDocument } from '@/service/firebase/collection'
-import { revalidatePath, revalidateTag } from 'next/cache'
-import { LOGS_TAG } from '@/constants/tag'
+import { revalidatePath } from 'next/cache'
 
 // * Update Log API
 export async function POST(request: Request) {
   try {
-    const log = (await request.json()) as Log
+    const log: Log = await request.json()
     const { id, ...logData } = log
     await setDocument<LogDocument>('logs', id, logData)
     // * 캐시 삭제

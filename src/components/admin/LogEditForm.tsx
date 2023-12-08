@@ -58,10 +58,23 @@ export default function LogEditForm({ log, content: contentProp, tags: tagsProp 
         method: 'POST',
         body: JSON.stringify(curLog)
       }).then((res) => res.json())
-
       if (res.state === 'failure') alert(res.message)
     }
 
+    router.push('/admin/board/logs/1')
+  }
+
+  async function deleteLog() {
+    const trigger = prompt('Are you sure you want to delete this post?\nso, type "delete"')
+    if (trigger !== 'delete') return
+    await Promise.all([
+      fetch(`/api/log/${log.id}`, {
+        method: 'POST'
+      }),
+      fetch(`/api/content/${log.storagePath}`, {
+        method: 'POST'
+      })
+    ])
     router.push('/admin/board/logs/1')
   }
 
@@ -74,21 +87,6 @@ export default function LogEditForm({ log, content: contentProp, tags: tagsProp 
     const targetTag = (e.target as HTMLSelectElement).value
     if (targetTag === '') return
     setTags((prev) => (prev.includes(targetTag) ? prev : [...prev, targetTag]))
-  }
-
-  async function deleteLog() {
-    const trigger = prompt('Are you sure you want to delete this post?\nso, type "delete"')
-    if (trigger !== 'delete') return
-    const logRes: ResponseBase<null> = await fetch(`/api/log/${log.id}`, {
-      method: 'POST'
-    }).then((res) => res.json())
-    if (logRes.state === 'failure') return alert(logRes.message)
-
-    const contentRes: ResponseBase<null> = await fetch(`/api/content/${log.storagePath}`, {
-      method: 'POST'
-    }).then((res) => res.json())
-    if (contentRes.state === 'failure') alert(contentRes.message)
-    router.push('/admin/board/logs/1')
   }
 
   return (

@@ -2,6 +2,8 @@ import { Log, Tag } from '@/models'
 import EditLogForm from '@/components/admin/LogEditForm'
 import { fetcher } from '@/utils/api'
 
+// * 어드민 페이지는 정적으로 생성하지 않습니다.
+export const dynamic = 'force-dynamic'
 interface EditPostProps {
   params: {
     id: string
@@ -25,6 +27,3 @@ export default async function EditPost({ params: { id } }: EditPostProps) {
     </div>
   )
 }
-
-// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
-export const dynamic = 'force-dynamic'

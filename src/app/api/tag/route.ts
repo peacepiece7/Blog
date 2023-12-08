@@ -1,38 +1,32 @@
 import { NextResponse } from 'next/server'
-import { Tag, ThumbnailDocument } from '@/models'
 import { addDocument } from '@/service/firebase/collection'
-import { revalidatePath, revalidateTag } from 'next/cache'
-import { LOGS_TAG } from '@/constants/tag'
+import { revalidatePath } from 'next/cache'
 
-// * Add Tag API
+export type AddTagReqeust = {
+  id: string
+  name: string
+  thumbnail: string
+}
+
+// * 태그 추가
 export async function POST(request: Request) {
   try {
-    const tag: AddTagsRequest = await request.json()
-
+    const tag: AddTagReqeust = await request.json()
     // * 썸네일 저장
-    const res = await addDocument<ThumbnailDocument>('thumbnails', {
+    const res = await addDocument('thumbnails', {
       name: `${tag.name}_logo`,
       source: tag.thumbnail
     })
-    const thumbId = res.id
-
-    // * 태그 저장
-    await addDocument<Omit<Tag, 'id'>>('tags', {
+    await addDocument('tags', {
       name: tag.name,
-      thumbnailId: thumbId
+      thumbnailId: res.id
     })
     // * 캐시 삭제
     // revalidateTag(LOGS_TAG)
-    // revalidatePath('/')
+    revalidatePath('/')
     return NextResponse.json({ state: 'success', data: null, message: '태그가 추가되었습니다.' }, { status: 200 })
   } catch (error) {
     console.error(error)
     return NextResponse.json({ state: 'failure', data: null, meessage: '태그를 추가하지 못했습니다.' }, { status: 500 })
   }
-}
-
-export type AddTagsRequest = {
-  id: string
-  name: string
-  thumbnail: string
 }

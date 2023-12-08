@@ -2,6 +2,9 @@ import { Tag } from '@/models'
 import LogAddForm from '@/components/admin/LogAddForm'
 import { fetcher } from '@/utils/api'
 
+// * 어드민 페이지는 정적으로 생성하지 않습니다.
+export const dynamic = 'force-dynamic'
+
 export default async function AddPost() {
   const { data: tags }: ResponseBase<Tag[]> = await fetcher('api/tags', {
     cache: 'no-cache'
@@ -14,6 +17,3 @@ export default async function AddPost() {
     </div>
   )
 }
-
-// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
-export const dynamic = 'force-dynamic'

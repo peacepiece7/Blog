@@ -2,8 +2,7 @@ import { Thumb } from '@/models'
 import { getDocument } from '@/service/firebase/collection'
 import { NextResponse } from 'next/server'
 import { setDocument } from '@/service/firebase/collection'
-import { revalidatePath, revalidateTag } from 'next/cache'
-import { LOGS_TAG } from '@/constants/tag'
+import { revalidatePath } from 'next/cache'
 
 // * 썸네일 조회
 export async function GET(request: Request) {

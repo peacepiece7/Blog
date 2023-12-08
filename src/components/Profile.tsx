@@ -5,14 +5,14 @@ export const Profile = () => {
   return (
     <div className="flex mt-24">
       <Image
-        className="rounded-[75px] border-[1px] border-[rgba(255,255,255,0.1)]"
+        className="border-[1px] border-[rgba(255,255,255,0.1)] rounded-[75px]"
         src="https://avatars.githubusercontent.com/u/73880776?s=400&u=1ce40dd704a71a9f5ce3f80cbf19092032f2df14&v=4"
         alt="profile"
-        width={150}
-        height={150}
+        width={120}
+        height={120}
       />
-      <div className="pl-24">
-        <h1 className="pb-4">TaeUk Jung</h1>
+      <div className="pl-4 md:pl-24">
+        <h1 className="pb-4 whitespace-nowrap">TaeUk Jung</h1>
         <p className="pb-4">FRONT-END DEVELOPER</p>
         <a
           className="flex mt-4 hover:text-red-500 transition-all"

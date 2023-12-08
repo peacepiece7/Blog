@@ -3,13 +3,12 @@ import { LogDocument } from '@/models'
 import { v1 } from 'uuid'
 import { addDocument } from '@/service/firebase/collection'
 import { updateStorageContent } from '@/service/firebase/storage'
-import { revalidateTag, revalidatePath } from 'next/cache'
-import { LOGS_TAG } from '@/constants/tag'
+import { revalidatePath } from 'next/cache'
 
 // * 새로운 로그 추가
 export async function POST(request: Request) {
   try {
-    const log = (await request.json()) as AddLogRequest
+    const log: AddLogRequest = await request.json()
     const fileName = `${log.fileName}-${v1()}.md`
 
     // * markdown 저장

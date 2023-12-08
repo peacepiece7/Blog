@@ -1,10 +1,9 @@
 import { Tag } from '@/models'
 import { NextResponse } from 'next/server'
 import { setDocument } from '@/service/firebase/collection'
-import { revalidatePath, revalidateTag } from 'next/cache'
-import { LOGS_TAG } from '@/constants/tag'
+import { revalidatePath } from 'next/cache'
 
-// * Update Tag API
+// * 태그 수정
 export async function POST(request: Request) {
   try {
     const tag: Tag = await request.json()

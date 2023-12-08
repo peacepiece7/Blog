@@ -14,27 +14,31 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Ta
   const [source, setSource] = useState(thumbProp.source)
   const router = useRouter()
 
-  // ! transaction 단위로 처리를 해야하는데 중요한 페이지가 아니라서 일단 보류합니다!
+  // TODO : 트렌젝션으로 변경해야함
   async function updateTag() {
+    const requests = []
     // * 태그 이름이 변경되면 태그 이름과 로그를 업데이트 합니다.
     if (tagName !== tagProp.name) {
       const tag: Tag = {
         ...tagProp,
         name: tagName
       }
-      await fetch('/api/tag/update', {
-        method: 'POST',
-        body: JSON.stringify(tag)
-      })
-
+      requests.push(
+        fetch('api/tag/update', {
+          method: 'POST',
+          body: JSON.stringify(tag)
+        })
+      )
       logs.forEach((log) => {
         const isExist = log.tags.find((tag) => tag === tagProp.name)
         if (!isExist) return
         log.tags = log.tags.map((tag) => (tag === tagProp.name ? tagName : tag))
-        fetch('/api/log/update', {
-          method: 'POST',
-          body: JSON.stringify(log)
-        })
+        requests.push(
+          fetch('api/log/update', {
+            method: 'POST',
+            body: JSON.stringify(log)
+          })
+        )
       })
     }
     // * 썸네일이 변경되면 업데이트 합니다.
@@ -43,34 +47,39 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Ta
         ...thumbProp,
         source
       }
-      await fetch('api/thumb', {
-        method: 'POST',
-        body: JSON.stringify(thumb)
-      })
+      requests.push(
+        fetch('/api/thumb', {
+          method: 'POST',
+          body: JSON.stringify(thumb)
+        })
+      )
     }
+    await Promise.all(requests)
     router.push('/admin/board/tags/1')
   }
   async function deleteTag() {
-    const trigger = prompt('Are you sure you want to delete this tag?\nso, type "delete"')
+    const trigger = prompt('If you want to delete this tag, type "delete"')
     if (trigger !== 'delete') return
-
-    await fetch(`api/tag?id=${tagProp.id}`, {
-      method: 'POST'
-    })
-
-    await fetch(`api/thumb?id=${thumbProp.id}`, {
-      method: 'POST'
-    })
-
+    const requests = [
+      fetch(`/api/tag?id=${tagProp.id}`, {
+        method: 'POST'
+      }),
+      fetch(`/api/thumb?id=${thumbProp.id}`, {
+        method: 'POST'
+      })
+    ]
     logs.forEach((log) => {
       const isExist = log.tags.find((tag) => tag === tagProp.name)
       if (!isExist) return
       log.tags = log.tags.filter((tag) => tag !== tagProp.name)
-      fetch('/api/log/update', {
-        method: 'POST',
-        body: JSON.stringify(log)
-      })
+      requests.push(
+        fetch('/api/log/update', {
+          method: 'POST',
+          body: JSON.stringify(log)
+        })
+      )
     })
+    await Promise.all(requests)
     router.push('/admin/board/tags/1')
   }
 

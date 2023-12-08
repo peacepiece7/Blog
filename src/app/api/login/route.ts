@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-// * Login API
+// * 로그인 요청
 export async function POST(request: Request) {
   try {
     const body = await request.json()

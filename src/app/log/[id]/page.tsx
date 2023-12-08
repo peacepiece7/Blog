@@ -5,14 +5,12 @@ import LoadingWithSmile from '@/components/LoadingWithSmile'
 import ProgressBar from '@/components/ProgressBar'
 import { API_REVALIDATE_TIME, PAGE_REVALIDATE_ITEM } from '@/constants'
 import { notFound } from 'next/navigation'
-import { getLogCache } from '@/service/preloaders'
-import { getContentFetcher, getLogFetcher } from '@/utils/api'
+import { getContentFetcher, getLogFetcher, getLogsFetcher } from '@/utils/api'
 import { Log } from '@/models'
 import { LOGS_TAG } from '@/constants/tag'
 
 export const dynamic = 'force-static'
 export const revalidate = PAGE_REVALIDATE_ITEM
-
 interface WEbLogPageProps {
   params: {
     id: string
@@ -50,11 +48,15 @@ export default async function WebLogPage({ params: { id } }: WEbLogPageProps) {
 }
 
 export async function generateMetadata({ params: { id } }: WEbLogPageProps) {
-  const logs = await getLogCache(id)
-
+  const log = await getLogFetcher<Log>('api/log', id, {
+    next: {
+      revalidate: API_REVALIDATE_TIME,
+      tags: [LOGS_TAG]
+    }
+  })
   return {
-    title: `Web log | ${logs.title}`,
-    description: `${logs.title} 포스팅`,
-    keywords: `${logs.tags.join(', ')}`
+    title: `Web log | ${log.title}`,
+    description: `${log.title} 포스팅`,
+    keywords: `${log.tags.join(', ')}`
   }
 }

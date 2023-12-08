@@ -2,7 +2,7 @@ import { Log, Thumb } from '@/models'
 import { PagenatedItems } from '@/components/PagenatedItems'
 import { fetcher } from '@/utils/api'
 
-// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
+// * 어드민 페이지는 정적으로 생성하지 않습니다.
 export const dynamic = 'force-dynamic'
 
 interface PostsProps {
