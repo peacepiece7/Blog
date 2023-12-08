@@ -18,11 +18,10 @@ export async function POST(request: Request) {
       source: tag.thumbnail
     })
     await addDocument('tags', {
-      name: tag.name,
-      thumbnailId: res.id
+      thumbnailId: res.id,
+      name: tag.name
     })
     // * 캐시 삭제
-    // revalidateTag(LOGS_TAG)
     revalidatePath('/')
     return NextResponse.json({ state: 'success', data: null, message: '태그가 추가되었습니다.' }, { status: 200 })
   } catch (error) {

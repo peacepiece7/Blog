@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function TagAddForm() {
@@ -7,7 +7,8 @@ export default function TagAddForm() {
   const [thumbnail, setThumbnail] = useState('')
   const router = useRouter()
 
-  const addTag = async () => {
+  const addTag = async (e: FormEvent) => {
+    e.preventDefault()
     const res: ResponseBase<null> = await fetch('/api/tag', {
       method: 'POST',
       body: JSON.stringify({

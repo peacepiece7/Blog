@@ -61,10 +61,10 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Ta
     const trigger = prompt('If you want to delete this tag, type "delete"')
     if (trigger !== 'delete') return
     const requests = [
-      fetch(`/api/tag?id=${tagProp.id}`, {
+      fetch(`/api/tag/${tagProp.id}`, {
         method: 'POST'
       }),
-      fetch(`/api/thumb?id=${thumbProp.id}`, {
+      fetch(`/api/thumb/${thumbProp.id}`, {
         method: 'POST'
       })
     ]
@@ -113,6 +113,7 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Ta
           onChange={(e) => setSource(e.target.value)}
         />
         <button
+          type="button"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded ml-4 border-none cursor-pointer"
           onClick={resetSource}
         >
@@ -122,12 +123,14 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Ta
 
       <div className="text-end">
         <button
+          type="button"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded max-w-[125px] h-[45px] mt-4 ml-auto border-none cursor-pointer"
           onClick={updateTag}
         >
           Update Post
         </button>
         <button
+          type="button"
           className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded max-w-[125px] h-[45px] mt-4 ml-12 border-none cursor-pointer"
           onClick={deleteTag}
         >

@@ -1,25 +1,26 @@
 import Link from 'next/link'
 import TagMenu from '@/components/TagMenu'
 import { notFound } from 'next/navigation'
-import { getLogsFetcher, getTagsFetcher } from '@/utils/api'
+import { getLogsFetcher, getTagsFetcher } from '@/apis'
 import { Log, Tag } from '@/models'
 import { API_REVALIDATE_TIME } from '@/constants'
 import { LOGS_TAG } from '@/constants/tag'
 
 export default async function Header() {
-  const logs = await getLogsFetcher<Log[]>('api/logs', {
-    next: {
-      revalidate: API_REVALIDATE_TIME,
-      tags: [LOGS_TAG]
-    }
-  })
-  const tags = await getTagsFetcher<Tag[]>('api/tags', {
-    next: {
-      revalidate: API_REVALIDATE_TIME,
-      tags: [LOGS_TAG]
-    }
-  })
-
+  const [logs, tags] = await Promise.all([
+    getLogsFetcher<Log[]>('api/logs', {
+      next: {
+        revalidate: API_REVALIDATE_TIME,
+        tags: [LOGS_TAG]
+      }
+    }),
+    getTagsFetcher<Tag[]>('api/tags', {
+      next: {
+        revalidate: API_REVALIDATE_TIME,
+        tags: [LOGS_TAG]
+      }
+    })
+  ])
   if (!logs || !tags) notFound()
 
   return (

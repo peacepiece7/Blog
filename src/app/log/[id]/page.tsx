@@ -3,14 +3,14 @@ import ViewerCover from '@/components/MdViewerCover'
 import { Suspense } from 'react'
 import LoadingWithSmile from '@/components/LoadingWithSmile'
 import ProgressBar from '@/components/ProgressBar'
-import { API_REVALIDATE_TIME, PAGE_REVALIDATE_ITEM } from '@/constants'
+import { API_REVALIDATE_TIME, PAGE_REVALIDATE_TIME } from '@/constants'
 import { notFound } from 'next/navigation'
-import { getContentFetcher, getLogFetcher, getLogsFetcher } from '@/utils/api'
+import { getContentFetcher, getLogFetcher } from '@/apis'
 import { Log } from '@/models'
 import { LOGS_TAG } from '@/constants/tag'
 
 export const dynamic = 'force-static'
-export const revalidate = PAGE_REVALIDATE_ITEM
+export const revalidate = PAGE_REVALIDATE_TIME
 interface WEbLogPageProps {
   params: {
     id: string

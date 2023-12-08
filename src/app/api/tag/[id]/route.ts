@@ -1,5 +1,4 @@
 import { deleteDocument, getDocument } from '@/service/firebase/collection'
-import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
@@ -44,7 +43,7 @@ export async function GET(_request: NextRequest, { params }: Segments) {
 // * 태그 삭제
 export async function POST(_request: Request, { params }: Segments) {
   try {
-    if (!params.id)
+    if (!params.id) {
       return NextResponse.json(
         { status: 'failure', message: '잘못된 요청입니다.', data: null },
         {
@@ -54,10 +53,10 @@ export async function POST(_request: Request, { params }: Segments) {
           }
         }
       )
+    }
     await deleteDocument('tags', params.id)
     // * 캐시 삭제
-    // revalidateTag(LOGS_TAG)
-    revalidatePath('/')
+    // revalidatePath('/')
     return NextResponse.json(
       { state: 'success', data: null, message: '태그가 삭제되었습니다.' },
       {

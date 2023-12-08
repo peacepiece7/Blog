@@ -1,28 +1,30 @@
 import { PagenatedItems } from '@/components/PagenatedItems'
 import { Profile } from '@/components/Profile'
-import { API_REVALIDATE_TIME } from '@/constants'
+import { API_REVALIDATE_TIME, PAGE_REVALIDATE_TIME } from '@/constants'
 import { LOGS_TAG } from '@/constants/tag'
 import { Log, Thumb } from '@/models'
-import { getLogsFetcher, getThumbsFetcher } from '@/utils/api'
+import { getLogsFetcher, getThumbsFetcher } from '@/apis'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-static'
-export const revalidate = 3600
+export const revalidate = PAGE_REVALIDATE_TIME
 
 export default async function Home() {
-  const logs = await getLogsFetcher<Log[]>('api/logs', {
-    next: {
-      revalidate: API_REVALIDATE_TIME,
-      tags: [LOGS_TAG]
-    }
-  })
-  const thumbs = await getThumbsFetcher<Thumb[]>('api/thumbs', {
-    next: {
-      revalidate: API_REVALIDATE_TIME,
-      tags: [LOGS_TAG]
-    }
-  })
+  const [logs, thumbs] = await Promise.all([
+    getLogsFetcher<Log[]>('api/logs', {
+      next: {
+        revalidate: API_REVALIDATE_TIME,
+        tags: [LOGS_TAG]
+      }
+    }),
+    getThumbsFetcher<Thumb[]>('api/thumbs', {
+      next: {
+        revalidate: API_REVALIDATE_TIME,
+        tags: [LOGS_TAG]
+      }
+    })
+  ])
 
   if (!logs || !thumbs) notFound()
 
