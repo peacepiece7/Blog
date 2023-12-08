@@ -1,4 +1,6 @@
 import MarkdownIt from 'markdown-it'
+import hljs from 'highlight.js'
+
 // * 랜덤한 Hex Color를 반환합니다.
 export const randomBrightColor = (str: string) => {
   var hash = 0
@@ -33,7 +35,7 @@ export const createToc = (markdown: string) => {
   const md = new MarkdownIt({
     html: true,
     linkify: true,
-    typographer: true,
+    typographer: true
   })
   const htmlHeaders = md.render(headers)
   htmlHeaders.split('\n').forEach((line: string) => {
@@ -45,8 +47,26 @@ export const createToc = (markdown: string) => {
   return toc
 }
 
-// * markdown의 header에 id 속성을 부여합니다.
-export const addIdToHeader = (html: string) => {
+// * markdown을 HTML(string)로 변환합니다.
+export const parseMdToHTML = (markdown: string) => {
+  const mdRole = new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(str, { language: lang }).value
+        } catch (__) {}
+      }
+      return ''
+    }
+  })
+  return addIdToHeaderTag(mdRole.render(markdown))
+}
+
+// * markdown의 heading tag에 id 속성을 부여합니다.
+export const addIdToHeaderTag = (html: string) => {
   return html
     .split('\n')
     .map((line) => {
@@ -58,4 +78,9 @@ export const addIdToHeader = (html: string) => {
       return line.replace(/<h(\d)>/, `<h$1 id="${id}">`)
     })
     .join('\n')
+}
+
+// * Production, Development에 따라 다른 base URL을 반환합니다.
+export const getBaseUrl = () => {
+  return process.env.NODE_ENV === 'development' ? `http://127.0.0.1:3000` : `https://${process.env.VERCEL_URL}`
 }

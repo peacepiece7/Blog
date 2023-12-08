@@ -1,25 +1,14 @@
 'use client'
+import useSWR from 'swr'
 import { LogsResponse, TagsResponse } from '@/type'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
-type Props = {
-  tags: TagsResponse
-  logs: LogsResponse
-}
-export default function TagMenu({ tags, logs }: Props) {
-  const [isOpen, setIsOpen] = useState(false)
+export default function TagMenu() {
+  const { data: logs } = useSWR<LogsResponse>('/api/logs')
+  const { data: tags } = useSWR<TagsResponse>('/api/tags')
 
-  const tagList = tags.map((tag) => {
-    let cnt = 0
-    logs.forEach((log) => {
-      log.tags.includes(tag.name) && cnt++
-    })
-    return {
-      ...tag,
-      cnt,
-    }
-  })
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     window.addEventListener('click', (e) => {
@@ -29,23 +18,31 @@ export default function TagMenu({ tags, logs }: Props) {
     })
   }, [])
 
+  const tagList = tags?.map((tag) => {
+    let cnt = 0
+    logs?.forEach((log) => {
+      log.tags.includes(tag.name) && cnt++
+    })
+    return {
+      ...tag,
+      cnt
+    }
+  })
+
   const openMenu = () => setIsOpen(!isOpen)
 
   return (
     <div>
-      <p
-        id='tagBtn'
-        onClick={openMenu}
-        className='cursor-pointer m-0 hover:text-red-500 transition-all'
-      >
+      <p id="tagBtn" onClick={openMenu} className="cursor-pointer m-0 hover:text-red-500 transition-all">
         tags
       </p>
+      {/* PORTAL로 보낼까? */}
       <div
-        id='tagMenu'
+        id="tagMenu"
         className={`absolute top-[70px] right-0 bg-white z-20 border-black border-solid transition-all overflow-hidden
         ${isOpen ? 'w-[400px] border-[1px]' : 'border-0 w-0'}`}
       >
-        <ul className='p-0'>
+        <ul className="p-0">
           {tagList &&
             tagList
               .sort((a, b) => {
@@ -56,15 +53,10 @@ export default function TagMenu({ tags, logs }: Props) {
               })
               .map((tag) => {
                 return (
-                  <Link
-                    prefetch={process.env.NODE_ENV === 'production'}
-                    className='block w-full'
-                    href={`/tags/${tag.name}`}
-                    key={tag.id}
-                  >
-                    <li className='mt-4 pl-12 p-4 text-left rounded-md hover:text-red-500 transition-all'>
+                  <Link prefetch={false} className="block w-full" href={`/tags/${tag.name}/1`} key={tag.id}>
+                    <li className="mt-4 pl-12 p-4 text-left rounded-md hover:text-red-500 transition-all">
                       <span>{tag.name}</span>
-                      <span className='pl-4 text-gray-400'>{`(${tag.cnt})`}</span>
+                      <span className="pl-4 text-gray-400">{`(${tag.cnt})`}</span>
                     </li>
                   </Link>
                 )

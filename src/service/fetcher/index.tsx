@@ -8,9 +8,7 @@ type Collections = CollectionName[]
 export const getFetcher = async (...collections: Collections) => {
   // 개발 모드에서는 데이터 caching
   if (process.env.NODE_ENV === 'development') {
-    const apis = collections.map((collection) =>
-      fetch(`http://localhost:3000/api/get/${collection}`),
-    )
+    const apis = collections.map((collection) => fetch(`http://localhost:3000/api/get/${collection}`))
     return Promise.all(apis.map((api) => api.then((res) => res.json())))
   }
 

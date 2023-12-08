@@ -10,14 +10,14 @@ export async function POST(request: Request) {
     // * 썸네일 저장
     const res = await addDocCache<ThumbnailDocument>('thumbnails', {
       name: `${tag.name}_logo`,
-      source: tag.thumbnail,
+      source: tag.thumbnail
     })
     const thumbId = res.id
 
     // * 태그 저장
     await addDocCache<Omit<TagResponse, 'id'>>('tags', {
       name: tag.name,
-      thumbnailId: thumbId,
+      thumbnailId: thumbId
     })
 
     return NextResponse.json({ state: 'success', response: '' })

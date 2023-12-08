@@ -1,16 +1,5 @@
-import 'server-only'
-
-import { cache } from 'react'
 import { init } from './config'
-
-import {
-  getStorage,
-  ref,
-  UploadResult,
-  deleteObject,
-  uploadString,
-  getBytes,
-} from 'firebase/storage'
+import { getStorage, ref, UploadResult, deleteObject, uploadString, getBytes } from 'firebase/storage'
 
 export type ContentData = {
   storagePath: string
@@ -19,7 +8,7 @@ export type ContentData = {
 
 const storage = getStorage(init)
 
-export const getContentDataCache = cache(async (_ref?: string) => {
+export const getContentDataCache = async (_ref?: string) => {
   try {
     console.log('getContentDataCache가 호출되었습니다.')
     if (!_ref) {
@@ -35,15 +24,13 @@ export const getContentDataCache = cache(async (_ref?: string) => {
     console.error(err)
     return ''
   }
-})
+}
 
-export const uploadContentDataCache = cache(
-  async (storagePath: string, content: string): Promise<UploadResult | void> => {
-    const mountainsRef = ref(storage, storagePath)
-    return await uploadString(mountainsRef, content)
-  },
-)
+export const uploadContentDataCache = async (storagePath: string, content: string): Promise<UploadResult | void> => {
+  const mountainsRef = ref(storage, storagePath)
+  return await uploadString(mountainsRef, content)
+}
 
-export const deleteContentDataCache = cache(async (storagePath: string) => {
+export const deleteContentDataCache = async (storagePath: string) => {
   await deleteObject(ref(storage, storagePath))
-})
+}

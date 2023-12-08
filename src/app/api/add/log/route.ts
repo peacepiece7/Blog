@@ -1,4 +1,4 @@
-import { LogDocument, ThumbnailDocument } from '@/type'
+import { LogDocument } from '@/type'
 import { NextResponse } from 'next/server'
 import { v1 } from 'uuid'
 
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       storagePath: `markdown/${fileName}`,
       tags: log.tags,
       thumbnailId: log.thumbnailId,
-      title: log.title,
+      title: log.title
     }
     await addDocCache<LogDocument>('logs', logDoc)
 

@@ -1,4 +1,3 @@
-import { useSearchParams } from 'next/navigation'
 import { getContentDataCache } from './../../../../service/Firebase_fn/storage'
 import { NextResponse } from 'next/server'
 
