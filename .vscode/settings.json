@@ -24,7 +24,7 @@
     "html" // Add "html" to enable linting `.html` files.
   ],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true // eslint auto fix를 enableg합니다.
+    "source.fixAll.eslint": "explicit"
   },
 
   // * vscode 기능 설정
