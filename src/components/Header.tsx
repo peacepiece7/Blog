@@ -1,19 +1,26 @@
 import Link from 'next/link'
 import TagMenu from '@/components/TagMenu'
-import type { Log, Tag } from '@/models'
-import { REVALIDATE_DEFAULT_TIME } from '@/constants'
-import { errorHandler, fetcher } from '@/utils/api'
+import { notFound } from 'next/navigation'
+import { getLogsFetcher, getTagsFetcher } from '@/utils/api'
+import { Log, Tag } from '@/models'
+import { API_REVALIDATE_TIME } from '@/constants'
 import { LOGS_TAG } from '@/constants/tag'
 
 export default async function Header() {
-  const [logsError, logsRes] = await fetcher<ResponseBase<Log[]>>(`api/logs`, {
-    next: { revalidate: REVALIDATE_DEFAULT_TIME, tags: [LOGS_TAG] }
+  const logs = await getLogsFetcher<Log[]>('api/logs', {
+    next: {
+      revalidate: API_REVALIDATE_TIME,
+      tags: [LOGS_TAG]
+    }
   })
-  const [tagsError, tagsRes] = await fetcher<ResponseBase<Tag[]>>(`api/tags`, {
-    next: { revalidate: REVALIDATE_DEFAULT_TIME, tags: [LOGS_TAG] }
+  const tags = await getTagsFetcher<Tag[]>('api/tags', {
+    next: {
+      revalidate: API_REVALIDATE_TIME,
+      tags: [LOGS_TAG]
+    }
   })
 
-  if (!logsRes || !tagsRes) return errorHandler([logsError, tagsError])
+  if (!logs || !tags) notFound()
 
   return (
     <header id="header" className="border-b-2">
@@ -37,7 +44,7 @@ export default async function Header() {
               </Link>
             </li>
             <li className="pr-4">
-              <TagMenu logs={logsRes.data} tags={tagsRes.data} />
+              <TagMenu logs={logs} tags={tags} />
             </li>
           </ul>
         </nav>

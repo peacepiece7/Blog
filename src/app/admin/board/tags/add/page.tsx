@@ -1,5 +1,8 @@
 import TagAddForm from '@/components/admin/TagAddForm'
 
+// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
+export const dynamic = 'force-dynamic'
+
 export default async function AddPost() {
   return (
     <div className="max-w-7xl m-auto">
@@ -8,6 +11,3 @@ export default async function AddPost() {
     </div>
   )
 }
-
-// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
-export const dynamic = 'force-dynamic'

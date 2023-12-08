@@ -2,7 +2,7 @@
 
 const nextConfig = {
   images: {
-    domains: ['localhost', 'firebasestorage.googleapis.com', 'avatars.githubusercontent.com', '127.0.0.1']
+    domains: ['firebasestorage.googleapis.com', 'avatars.githubusercontent.com']
   },
   reactStrictMode: false
 }

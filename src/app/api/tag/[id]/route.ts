@@ -1,6 +1,6 @@
 import { LOGS_TAG } from '@/constants/tag'
-import { deleteDocCache, getDocCache } from '@/service/Firebase_fn/collection'
-import { revalidateTag } from 'next/cache'
+import { deleteDocument, getDocument } from '@/service/firebase/collection'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
@@ -9,7 +9,7 @@ type Context = {
   params: { id: string }
 }
 
-// * 전체 태그 리스트 조회 API
+// * 특정 테그 조회 API
 export async function GET(_: NextRequest, ctx: Context) {
   try {
     if (!ctx.params.id)
@@ -17,7 +17,7 @@ export async function GET(_: NextRequest, ctx: Context) {
         { state: 'failure', data: null, message: '존재하지 않는 아이디입니다.' },
         { status: 404 }
       )
-    return getDocCache('tags', ctx.params.id).then((data) =>
+    return getDocument('tags', ctx.params.id).then((data) =>
       NextResponse.json(
         { state: 'success', data, message: '태그 조회에 성공했습니다.' },
         {
@@ -55,8 +55,10 @@ export async function POST(request: Request, ctx: Context) {
           }
         }
       )
-    await deleteDocCache('tags', ctx.params.id)
-    revalidateTag(LOGS_TAG)
+    await deleteDocument('tags', ctx.params.id)
+    // * 캐시 삭제
+    // revalidateTag(LOGS_TAG)
+    revalidatePath('/')
     return NextResponse.json(
       { state: 'success', data: null, message: '태그가 삭제되었습니다.' },
       {

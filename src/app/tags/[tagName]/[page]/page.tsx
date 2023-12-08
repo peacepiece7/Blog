@@ -1,32 +1,41 @@
 import { PagenationItem } from '@/components/Items'
 import { PagenatedItems } from '@/components/PagenatedItems'
-import { REVALIDATE_DEFAULT_TIME } from '@/constants'
+import { API_REVALIDATE_TIME, PAGE_REVALIDATE_ITEM } from '@/constants'
 import { LOGS_TAG } from '@/constants/tag'
 import { Log, Thumb } from '@/models'
-import { errorHandler, fetcher } from '@/utils/api'
+import { getLogsFetcher, getThumbsFetcher } from '@/utils/api'
+import { notFound } from 'next/navigation'
 
-// export const revalidate = REVALIDATE_DEFAULT_TIME
 export const dynamic = 'force-static'
+export const revalidate = PAGE_REVALIDATE_ITEM
+
 interface TagsProps {
   params: {
     tagName: string
     page: string
   }
 }
+
 export default async function Tags({ params: { tagName, page } }: TagsProps) {
-  const [logError, logRes] = await fetcher<ResponseBase<Log[]>>('api/logs', {
-    next: { revalidate: REVALIDATE_DEFAULT_TIME, tags: [LOGS_TAG] }
+  const logs = await getLogsFetcher<Log[]>('api/logs', {
+    next: {
+      revalidate: API_REVALIDATE_TIME,
+      tags: [LOGS_TAG]
+    }
   })
-  const [thumbError, thumbsRes] = await fetcher<ResponseBase<Thumb[]>>(`api/thumbs`, {
-    next: { revalidate: REVALIDATE_DEFAULT_TIME, tags: [LOGS_TAG] }
+  const thumbs = await getThumbsFetcher<Thumb[]>('api/thumbs', {
+    next: {
+      revalidate: API_REVALIDATE_TIME,
+      tags: [LOGS_TAG]
+    }
   })
 
-  if (!logRes || !thumbsRes) return errorHandler([logError, thumbError])
+  if (!logs || !thumbs) notFound()
 
-  const itemsFilteredByTag: PagenationItem[] = logRes.data
+  const itemsFilteredByTag: PagenationItem[] = logs
     .filter((log) => log.tags.includes(tagName))
     .map((log) => {
-      const thumb = thumbsRes.data.find((thumb) => thumb.id === log.thumbnailId)
+      const thumb = thumbs.find((thumb) => thumb.id === log.thumbnailId)
       return {
         id: log.id,
         title: log.title,

@@ -1,7 +1,9 @@
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 
-// * 랜덤한 Hex Color를 반환합니다.
+/**
+ * @description 문자열 길이를 기준으로 즉정 패턴의 Hex Color를 반환합니다.
+ */
 export const randomBrightColor = (str: string) => {
   var hash = 0
   for (let i = 0; i < str.length; i++) {
@@ -15,13 +17,16 @@ export const randomBrightColor = (str: string) => {
   return colour
 }
 
-export type Toc = {
+export type TableOfContent = {
   level: string
   text: string
 }
-// * Markdown에서 Table of Content를 생성합니다.
+
+/**
+ * @description 문자열을 파싱하여 Table of Content를 생성하고 반환합니다.
+ */
 export const createToc = (markdown: string) => {
-  const toc = [] as Toc[]
+  const toc = [] as TableOfContent[]
   let flag = false
   const headers = markdown
     .split('\n')
@@ -47,7 +52,9 @@ export const createToc = (markdown: string) => {
   return toc
 }
 
-// * markdown을 HTML(string)로 변환합니다.
+/**
+ * @description markdown을 HTML 형식의 문자열로 변환합니다.
+ */
 export const parseMdToHTML = (markdown: string) => {
   const mdRole = new MarkdownIt({
     html: true,
@@ -65,7 +72,9 @@ export const parseMdToHTML = (markdown: string) => {
   return addIdToHeaderTag(mdRole.render(markdown))
 }
 
-// * markdown의 heading tag에 id 속성을 부여합니다.
+/**
+ * @description markdown의 header tag에 id를 추가합니다.
+ */
 export const addIdToHeaderTag = (html: string) => {
   return html
     .split('\n')
@@ -80,12 +89,16 @@ export const addIdToHeaderTag = (html: string) => {
     .join('\n')
 }
 
-// * Production, Development에 따라 다른 base URL을 반환합니다.
+/**
+ * @description  process.env.NODE_ENV 에 따라 다른 URL을 반환합니다.
+ */
 export const getBaseUrl = () => {
   return process.env.NODE_ENV === 'development' ? `http://127.0.0.1:3000` : `https://${process.env.VERCEL_URL}`
 }
 
-// * progress bar를 표기합니다.
+/**
+ * @description 현재 스크롤 위치를 기준으로 progress bar를 그립니다.
+ */
 export function paintProgressBar(containerId: string, barId: string) {
   const winScroll = document.body.scrollTop || document.documentElement.scrollTop
   const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
@@ -94,7 +107,6 @@ export function paintProgressBar(containerId: string, barId: string) {
 
   // * scroll bar container를 visible/hidden 합니다.
   scrolled > 5 ? (container.style.visibility = 'visible') : (container.style.visibility = 'hidden')
-
   const progressBar = document.getElementById(barId)!
   progressBar.style.width = scrolled + '%'
 }

@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import { LogDocument } from '@/models'
 import { v1 } from 'uuid'
-import { addDocCache } from '@/service/Firebase_fn/collection'
-import { uploadContentDataCache } from '@/service/Firebase_fn/storage'
-import { revalidateTag } from 'next/cache'
+import { addDocument } from '@/service/firebase/collection'
+import { updateStorageContent } from '@/service/firebase/storage'
+import { revalidateTag, revalidatePath } from 'next/cache'
 import { LOGS_TAG } from '@/constants/tag'
 
 // * 새로운 로그 추가
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const fileName = `${log.fileName}-${v1()}.md`
 
     // * markdown 저장
-    await uploadContentDataCache(`markdown/${fileName}`, log.content)
+    await updateStorageContent(`markdown/${fileName}`, log.content)
 
     // * 로그 저장
     const logDoc: LogDocument = {
@@ -24,10 +24,11 @@ export async function POST(request: Request) {
       thumbnailId: log.thumbnailId,
       title: log.title
     }
-    await addDocCache<LogDocument>('logs', logDoc)
+    await addDocument<LogDocument>('logs', logDoc)
 
     // * 캐시 삭제
-    revalidateTag(LOGS_TAG)
+    // revalidateTag(LOGS_TAG)
+    revalidatePath('/')
 
     return NextResponse.json(
       { state: 'success', data: null, message: '컨텐츠가 추가되었습니다.' },

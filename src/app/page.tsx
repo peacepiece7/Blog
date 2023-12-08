@@ -1,28 +1,35 @@
 import { PagenatedItems } from '@/components/PagenatedItems'
 import { Profile } from '@/components/Profile'
-import { REVALIDATE_DEFAULT_TIME } from '@/constants'
+import { API_REVALIDATE_TIME } from '@/constants'
 import { LOGS_TAG } from '@/constants/tag'
 import { Log, Thumb } from '@/models'
-import { errorHandler, fetcher } from '@/utils/api'
+import { getLogsFetcher, getThumbsFetcher } from '@/utils/api'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
-export const dynamic = 'force-dynamic' // 배포시 에러 발생으로 임시 SSR 조치
-// export const revalidate = REVALIDATE_DEFAULT_TIME
+export const dynamic = 'force-static'
+export const revalidate = 3600
 
 export default async function Home() {
-  const [logError, logRes] = await fetcher<ResponseBase<Log[]>>('api/logs', {
-    next: { revalidate: REVALIDATE_DEFAULT_TIME, tags: [LOGS_TAG] }
+  const logs = await getLogsFetcher<Log[]>('api/logs', {
+    next: {
+      revalidate: API_REVALIDATE_TIME,
+      tags: [LOGS_TAG]
+    }
   })
-  const [thumbError, thumbsRes] = await fetcher<ResponseBase<Thumb[]>>('api/thumbs', {
-    next: { revalidate: REVALIDATE_DEFAULT_TIME, tags: [LOGS_TAG] }
+  const thumbs = await getThumbsFetcher<Thumb[]>('api/thumbs', {
+    next: {
+      revalidate: API_REVALIDATE_TIME,
+      tags: [LOGS_TAG]
+    }
   })
 
-  if (!logRes || !thumbsRes) return errorHandler([logError, thumbError])
+  if (!logs || !thumbs) notFound()
 
-  const items = logRes?.data
+  const items = logs
     .filter((log) => log.tags.find((tag) => tag === 'Log'))
     .map((log) => {
-      const thumb = thumbsRes?.data.find((thumb) => thumb.id === log.thumbnailId)
+      const thumb = thumbs.find((thumb) => thumb.id === log.thumbnailId)
       const tags = log.tags.filter((tag) => tag !== 'Log')
       return {
         id: log.id,

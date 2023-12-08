@@ -2,7 +2,6 @@
 import { Log, Tag, Thumb } from '@/models'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { fetcher } from '@/utils/api'
 
 interface TagEditFormProps {
   tag: Tag
@@ -23,15 +22,16 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Ta
         ...tagProp,
         name: tagName
       }
-      await fetcher('api/tag/update', {
+      await fetch('/api/tag/update', {
         method: 'POST',
         body: JSON.stringify(tag)
       })
+
       logs.forEach((log) => {
         const isExist = log.tags.find((tag) => tag === tagProp.name)
         if (!isExist) return
         log.tags = log.tags.map((tag) => (tag === tagProp.name ? tagName : tag))
-        fetcher('api/log/update', {
+        fetch('/api/log/update', {
           method: 'POST',
           body: JSON.stringify(log)
         })
@@ -43,7 +43,7 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Ta
         ...thumbProp,
         source
       }
-      await fetcher('api/thumb', {
+      await fetch('api/thumb', {
         method: 'POST',
         body: JSON.stringify(thumb)
       })
@@ -54,11 +54,11 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Ta
     const trigger = prompt('Are you sure you want to delete this tag?\nso, type "delete"')
     if (trigger !== 'delete') return
 
-    await fetcher(`api/tag?id=${tagProp.id}`, {
+    await fetch(`api/tag?id=${tagProp.id}`, {
       method: 'POST'
     })
 
-    await fetcher(`api/thumb?id=${thumbProp.id}`, {
+    await fetch(`api/thumb?id=${thumbProp.id}`, {
       method: 'POST'
     })
 
@@ -66,7 +66,7 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Ta
       const isExist = log.tags.find((tag) => tag === tagProp.name)
       if (!isExist) return
       log.tags = log.tags.filter((tag) => tag !== tagProp.name)
-      fetcher('/api/log/update', {
+      fetch('/api/log/update', {
         method: 'POST',
         body: JSON.stringify(log)
       })

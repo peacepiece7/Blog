@@ -18,7 +18,7 @@ export default function FilteredList({ basePath, logs, thumbs }: FilteredListPro
         return (
           <div key={log.id} className="flex hover:drop-shadow-xl p-4 transition ease-in-out bg-white rounded-xl mt-12">
             <div className="pb-4 flex-1">
-              <Link prefetch={process.env.NODE_ENV === 'production'} href={`${basePath}/${log.id}`}>
+              <Link prefetch={false} href={`${basePath}/${log.id}`}>
                 <div
                   className="w-[120px] h-[120px] flex justify-center items-center rounded-md overflow-hidden"
                   dangerouslySetInnerHTML={{ __html: thumb?.source ? thumb.source : '' }}

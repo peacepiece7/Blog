@@ -1,22 +1,23 @@
 import { Tag, Thumb } from '@/models'
 import { PagenatedItems } from '@/components/PagenatedItems'
-import { errorHandler, fetcher } from '@/utils/api'
+import { fetcher } from '@/utils/api'
 
+// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
+export const dynamic = 'force-dynamic'
 interface TagsProps {
   params: { page: string }
 }
 export default async function Tags({ params: { page } }: TagsProps) {
-  const [tagsError, tagsRes] = await fetcher<ResponseBase<Tag[]>>('api/tags', {
+  const { data: tags }: ResponseBase<Tag[]> = await fetcher('api/tags', {
     cache: 'no-cache'
   })
-  const [thumbsError, thumbsRes] = await fetcher<ResponseBase<Thumb[]>>(`api/thumbs`, {
+  const { data: thumbs }: ResponseBase<Thumb[]> = await fetcher(`api/thumbs`, {
     cache: 'no-cache'
   })
-  if (!tagsRes || !thumbsRes) return errorHandler([tagsError, thumbsError])
 
-  const items = tagsRes.data
+  const items = tags
     .map((tag) => {
-      const thumb = thumbsRes.data.find((thumb) => thumb.id === tag.thumbnailId)
+      const thumb = thumbs.find((thumb) => thumb.id === tag.thumbnailId)
       return {
         id: tag.id,
         title: tag.name,
@@ -34,6 +35,3 @@ export default async function Tags({ params: { page } }: TagsProps) {
     </div>
   )
 }
-
-// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
-export const dynamic = 'force-dynamic'

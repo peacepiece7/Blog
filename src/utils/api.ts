@@ -1,7 +1,16 @@
+import 'server-only'
+import { getDocument, getDocuments } from '@/service/firebase/collection'
+import { getStorageContent } from '@/service/firebase/storage'
+
 export interface ErrorResponse {
   message: string
 }
 
+/**
+ * @description fetch API의 에러를 처리하는 함수입니다.
+ * Client Component에서 사용해주세요.
+ * Server Componenet에서 GET 요청 에러를 임의로 핸들링하면, 빌드 시점에서 에러가 발생할 가능성이 있습니다.
+ */
 export async function to<T>(promise: Promise<Response | T>): Promise<[ErrorResponse | null, T | null]> {
   try {
     const res = await promise
@@ -13,7 +22,7 @@ export async function to<T>(promise: Promise<Response | T>): Promise<[ErrorRespo
     const result: [null, T] = [null, res]
     return result
   } catch (error: unknown) {
-    process.env.NODE_ENV === 'development' && console.error(error)
+    console.error(error)
     if (error && typeof error === 'object' && 'message' in error && typeof error.message === 'string') {
       return [{ message: error.message }, null]
     }
@@ -25,11 +34,12 @@ export async function to<T>(promise: Promise<Response | T>): Promise<[ErrorRespo
  * @description fetch API wrapper입니다.
  * @param url 경로를 시작할 때 '/' 를 뺴고 입력해주세요.
  */
-export const fetcher = <T>(url: string, options?: RequestInit) => {
-  let baseUrl = 'http://127.0.0.1:3000'
+export const fetcher = async (url: string, options?: RequestInit) => {
+  let baseUrl = 'http://localhost:3000'
   if (process.env.NEXT_PUBLIC_VERCEL_URL) baseUrl = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-
-  return to<T>(fetch(`${baseUrl}/${url}`, options))
+  console.log(`fetcher request : ${baseUrl}/${url}`)
+  const res = await fetch(`${baseUrl}/${url}`, options).then((res) => res.json())
+  return res
 }
 
 /**
@@ -50,4 +60,46 @@ export const errorHandler = (error?: (ErrorResponse | null)[] | ErrorResponse | 
     }
   }
   throw new Error('알 수 없는 에러가 발생했습니다.')
+}
+
+export const getLogsFetcher = async <T>(url: string, options?: RequestInit) => {
+  if (process.env.NODE_BUILD === 'build') {
+    return await getDocuments<T>('logs')
+  }
+  const { data }: { data: T } = await fetcher(url, options)
+  return data
+}
+
+export const getLogFetcher = async <T>(url: string, id: string, options?: RequestInit) => {
+  if (process.env.NODE_BUILD === 'build') {
+    return await getDocument<T>('log', id)
+  }
+  const { data }: { data: T } = await fetcher(`${url}/${id}`, options)
+  return data
+}
+
+export const getThumbsFetcher = async <T>(url: string, options?: RequestInit) => {
+  if (process.env.NODE_BUILD === 'build') {
+    return await getDocuments<T>('thumbnails')
+  }
+  const { data }: { data: T } = await fetcher(url, options)
+  return data
+}
+
+export const getTagsFetcher = async <T>(url: string, options?: RequestInit) => {
+  if (process.env.NODE_BUILD === 'build') {
+    return await getDocuments<T>('tags')
+  }
+  const { data }: { data: T } = await fetcher(url, options)
+  return data
+}
+
+export const getContentFetcher = async (url: string, storagePath: string, options?: RequestInit) => {
+  if (process.env.NODE_BUILD === 'build') {
+    return await getStorageContent(storagePath)
+  }
+  console.log(`${url}/${storagePath}`)
+  // * storagePath = 'markdown/<UUID>' 형식으로 데이터가 와야합니다
+  const { data }: { data: string } = await fetcher(`${url}?path=${storagePath}`, options)
+  return data
 }

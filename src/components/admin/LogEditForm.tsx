@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import { randomBrightColor } from '@/utils'
 import { DATE_FORMAT } from '@/constants'
 import MarkdownViewer from '../MarkdownViewer'
-import { errorHandler, fetcher } from '@/utils/api'
 
 interface LogEditFormProps {
   log: Log
@@ -39,14 +38,14 @@ export default function LogEditForm({ log, content: contentProp, tags: tagsProp 
   async function updateLog() {
     const textarea = document.querySelector('.weblog-textarea') as HTMLTextAreaElement
     if (contentProp !== content) {
-      const [contentError] = await fetcher<ResponseBase<null>>('api/content', {
+      const res: ResponseBase<null> = await fetch('/api/content', {
         method: 'POST',
         body: JSON.stringify({
           storagePath: log.storagePath,
           content: textarea.value
         })
-      })
-      if (contentError) return errorHandler(contentError)
+      }).then((res) => res.json())
+      if (res.state === 'failure') return alert(res.message)
     }
     if (title !== log.title || JSON.stringify(tags) !== JSON.stringify(log.tags) || contentProp !== content) {
       const curLog: Log = {
@@ -55,11 +54,12 @@ export default function LogEditForm({ log, content: contentProp, tags: tagsProp 
         tags: tags,
         lastModifiedAt: dayjs().format(DATE_FORMAT)
       }
-      const [logError] = await fetcher('api/log/update', {
+      const res: ResponseBase<null> = await fetch('/api/log/update', {
         method: 'POST',
         body: JSON.stringify(curLog)
-      })
-      if (logError) return errorHandler(logError)
+      }).then((res) => res.json())
+
+      if (res.state === 'failure') alert(res.message)
     }
 
     router.push('/admin/board/logs/1')
@@ -79,20 +79,15 @@ export default function LogEditForm({ log, content: contentProp, tags: tagsProp 
   async function deleteLog() {
     const trigger = prompt('Are you sure you want to delete this post?\nso, type "delete"')
     if (trigger !== 'delete') return
-    const [logError] = await fetcher(`api/log/${log.id}`, {
+    const logRes: ResponseBase<null> = await fetch(`/api/log/${log.id}`, {
       method: 'POST'
-    })
-    if (logError) return errorHandler(logError)
+    }).then((res) => res.json())
+    if (logRes.state === 'failure') return alert(logRes.message)
 
-    const [contentError] = await fetcher(`api/content/${log.storagePath}`, {
+    const contentRes: ResponseBase<null> = await fetch(`/api/content/${log.storagePath}`, {
       method: 'POST'
-    })
-    if (contentError) {
-      return errorHandler(contentError)
-    }
-
-    // * ISR은 invalidate한 요청을 반환하고 refetch하기때문에, 캐시를 삭제해도
-    // * 첫 이동은 새로운 데이터를 가져오지 못합니다.
+    }).then((res) => res.json())
+    if (contentRes.state === 'failure') alert(contentRes.message)
     router.push('/admin/board/logs/1')
   }
 

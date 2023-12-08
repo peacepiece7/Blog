@@ -7,7 +7,6 @@ import { randomBrightColor } from '@/utils'
 import { DATE_FORMAT } from '@/constants'
 import MarkdownViewer from '../MarkdownViewer'
 import { AddLogRequest } from '@/app/api/log/route'
-import { errorHandler, fetcher } from '@/utils/api'
 
 interface LogAddFormProps {
   tags: Tag[]
@@ -74,11 +73,11 @@ export default function LogAddForm({ tags }: LogAddFormProps) {
       lastModifiedAt: date,
       fileName: fileName
     }
-    const [errorLog, logRes] = await fetcher<ResponseBase<null>>('api/log', {
+    const res: ResponseBase<null> = await fetch('/api/log', {
       method: 'POST',
       body: JSON.stringify(log)
-    })
-    if (!logRes) return errorHandler(errorLog)
+    }).then((res) => res.json())
+    if (res.state === 'failure') alert(res.message)
     router.push('/admin/board/logs/1')
   }
 

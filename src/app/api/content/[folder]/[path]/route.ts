@@ -1,6 +1,6 @@
-import { deleteContentDataCache } from '@/service/Firebase_fn/storage'
+import { deleteStorageContent } from '@/service/firebase/storage'
 import { NextResponse } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag, revalidatePath } from 'next/cache'
 import { LOGS_TAG } from '@/constants/tag'
 
 type Context = {
@@ -12,10 +12,11 @@ export async function POST(request: Request, ctx: Context) {
     console.log("API : deleteContentDataCache('%s')", `${ctx.params.folder}/${ctx.params.path}`)
 
     // * 저장소에서 markdown 파일 삭제
-    await deleteContentDataCache(`${ctx.params.folder}/${ctx.params.path}`)
+    await deleteStorageContent(`${ctx.params.folder}/${ctx.params.path}`)
 
     // * 캐시 삭제
-    revalidateTag(LOGS_TAG)
+    // revalidateTag(LOGS_TAG)
+    revalidatePath('/')
     return NextResponse.json(
       { state: 'success', data: null, message: '컨텐츠가 삭제되었습니다.' },
       {

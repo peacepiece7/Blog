@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
-import { getDocsCache } from '@/service/Firebase_fn/collection'
+import { getDocuments } from '@/service/firebase/collection'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    return getDocsCache('thumbnails').then((data) =>
+    return getDocuments('thumbnails').then((data) =>
       NextResponse.json({ state: 'success', data, message: '썸네일 조회에 성공했습니다.' }, { status: 200 })
     )
   } catch (error) {

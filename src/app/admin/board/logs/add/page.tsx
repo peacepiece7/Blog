@@ -1,17 +1,16 @@
 import { Tag } from '@/models'
 import LogAddForm from '@/components/admin/LogAddForm'
-import { errorHandler, fetcher } from '@/utils/api'
+import { fetcher } from '@/utils/api'
 
 export default async function AddPost() {
-  const [error, res] = await fetcher<ResponseBase<Tag[]>>('api/tags', {
+  const { data: tags }: ResponseBase<Tag[]> = await fetcher('api/tags', {
     cache: 'no-cache'
   })
-  if (!res) return errorHandler(error)
 
   return (
     <div className="max-w-7xl m-auto">
       <h1 className="mb-20 pl-8">Admin Add Log</h1>
-      <LogAddForm tags={res.data} />
+      <LogAddForm tags={tags} />
     </div>
   )
 }

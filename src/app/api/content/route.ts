@@ -1,9 +1,7 @@
-import { getContentDataCache } from '@/service/Firebase_fn/storage'
-import { URLSearchParams } from 'next/dist/compiled/@edge-runtime/primitives/url'
 import { NextRequest, NextResponse } from 'next/server'
-import { uploadContentDataCache } from '@/service/Firebase_fn/storage'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag, revalidatePath } from 'next/cache'
 import { LOGS_TAG } from '@/constants/tag'
+import { getStorageContent, updateStorageContent } from '@/service/firebase/storage'
 
 // * 컨텐츠 내용 조회
 export async function GET(request: NextRequest) {
@@ -32,7 +30,7 @@ export async function GET(request: NextRequest) {
       }
     )
 
-  return getContentDataCache(path).then((content) =>
+  return getStorageContent(path).then((content) =>
     NextResponse.json(
       {
         status: 'success',
@@ -53,9 +51,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: Request) {
   try {
     const { storagePath, content }: UpdateContentRequest = await request.json()
-    await uploadContentDataCache(storagePath, content)
+    await updateStorageContent(storagePath, content)
     // * 캐시 삭제
-    revalidateTag(LOGS_TAG)
+    // revalidateTag(LOGS_TAG)
+    revalidatePath('/')
 
     return NextResponse.json(
       { status: 'success', message: '컨텐츠가 수정되었습니다.', data: null },

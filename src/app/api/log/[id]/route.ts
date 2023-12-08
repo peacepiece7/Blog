@@ -1,7 +1,6 @@
-import { getDocCache } from '@/service/Firebase_fn/collection'
 import { NextRequest, NextResponse } from 'next/server'
-import { deleteDocCache } from '@/service/Firebase_fn/collection'
-import { revalidateTag } from 'next/cache'
+import { deleteDocument, getDocument } from '@/service/firebase/collection'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { LOGS_TAG } from '@/constants/tag'
 
 type Context = {
@@ -22,7 +21,7 @@ export async function GET(_: NextRequest, ctx: Context) {
       )
     }
 
-    return getDocCache('logs', ctx.params.id).then((data) => {
+    return getDocument('logs', ctx.params.id).then((data) => {
       return NextResponse.json(
         {
           state: 'success',
@@ -59,10 +58,11 @@ export type DeleteRequest = {
 // * 로그 삭제
 export async function POST(request: Request, ctx: Context) {
   try {
-    await deleteDocCache('logs', ctx.params.id)
+    await deleteDocument('logs', ctx.params.id)
 
     // * 캐시 삭제
-    revalidateTag(LOGS_TAG)
+    // revalidateTag(LOGS_TAG)
+    revalidatePath('/')
 
     return NextResponse.json(
       { state: 'success', data: null, message: '로그가 삭제되었습니다.' },

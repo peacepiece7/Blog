@@ -1,6 +1,6 @@
 import { Log, Tag } from '@/models'
 import EditLogForm from '@/components/admin/LogEditForm'
-import { errorHandler, fetcher } from '@/utils/api'
+import { fetcher } from '@/utils/api'
 
 interface EditPostProps {
   params: {
@@ -8,25 +8,20 @@ interface EditPostProps {
   }
 }
 export default async function EditPost({ params: { id } }: EditPostProps) {
-  const [logError, logRes] = await fetcher<ResponseBase<Log>>(`api/log/${id}`, {
+  const { data: log }: ResponseBase<Log> = await fetcher(`api/log/${id}`, {
     cache: 'no-cache'
   })
-  const [thumbError, tagsRes] = await fetcher<ResponseBase<Tag[]>>(`api/tags`, {
+  const { data: tags }: ResponseBase<Tag[]> = await fetcher(`api/tags`, {
     cache: 'no-cache'
   })
-  const [contentError, contentRes] = await fetcher<ResponseBase<string>>(
-    `api/content?path=${logRes?.data.storagePath ?? ''}`,
-    {
-      cache: 'no-cache'
-    }
-  )
-
-  if (!logRes || !tagsRes || !contentRes) return errorHandler([logError, thumbError, contentError])
+  const { data: content }: ResponseBase<string> = await fetcher(`api/content?path=${log.storagePath ?? ''}`, {
+    cache: 'no-cache'
+  })
 
   return (
     <div>
       <h1 className="mb-20">Admin Edit Post</h1>
-      <EditLogForm tags={tagsRes.data} log={logRes.data} content={contentRes.data} />
+      <EditLogForm tags={tags} log={log} content={content} />
     </div>
   )
 }

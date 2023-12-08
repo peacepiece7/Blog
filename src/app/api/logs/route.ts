@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
-import { getDocsCache } from '@/service/Firebase_fn/collection'
+import { getDocuments } from '@/service/firebase/collection'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    return getDocsCache('logs').then((data) =>
+    return getDocuments('logs').then((data) =>
       NextResponse.json(
         { status: 'success', data, message: '로그 조회에 성공했습니다.' },
         {

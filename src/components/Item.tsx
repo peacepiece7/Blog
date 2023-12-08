@@ -11,7 +11,7 @@ export default function Item({ item }: ItemProps) {
   return (
     <div className="flex hover:drop-shadow-xl p-4 transition ease-in-out bg-white rounded-xl mt-12">
       <div className="pb-4 flex-1">
-        <Link prefetch={process.env.NODE_ENV === 'production'} href={item.url ? item.url : '/'}>
+        <Link prefetch={false} href={item.url ? item.url : '/'}>
           {item.svg && (
             <div
               className="w-[120px] h-[120px] flex justify-center items-center rounded-md overflow-hidden"

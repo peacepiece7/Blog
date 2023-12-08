@@ -1,8 +1,8 @@
 import { Thumb } from '@/models'
-import { getDocCache } from '@/service/Firebase_fn/collection'
+import { getDocument } from '@/service/firebase/collection'
 import { NextResponse } from 'next/server'
-import { setDocCache } from '@/service/Firebase_fn/collection'
-import { revalidateTag } from 'next/cache'
+import { setDocument } from '@/service/firebase/collection'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { LOGS_TAG } from '@/constants/tag'
 
 // * 썸네일 조회
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         }
       )
 
-    return getDocCache('thumbnails', id).then((data) =>
+    return getDocument('thumbnails', id).then((data) =>
       NextResponse.json(
         { state: 'success', data, message: '썸네일 조회에 성공했습니다.' },
         {
@@ -52,9 +52,10 @@ export async function POST(request: Request) {
   try {
     const thumb: Thumb = await request.json()
     const { id, ...thumbData } = thumb
-    await setDocCache<Omit<Thumb, 'id'>>('thumbnails', id, thumbData)
-    revalidateTag(LOGS_TAG)
-
+    await setDocument<Omit<Thumb, 'id'>>('thumbnails', id, thumbData)
+    // * 캐시 삭제
+    // revalidateTag(LOGS_TAG)
+    revalidatePath('/')
     return NextResponse.json(
       { state: 'success', data: null, message: '썸네일이 수정되었습니다.' },
       {

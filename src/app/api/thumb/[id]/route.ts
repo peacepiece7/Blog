@@ -1,6 +1,5 @@
-import { LOGS_TAG } from '@/constants/tag'
-import { deleteDocCache } from '@/service/Firebase_fn/collection'
-import { revalidateTag } from 'next/cache'
+import { deleteDocument } from '@/service/firebase/collection'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 
 interface Context {
@@ -20,8 +19,10 @@ export async function POST(request: Request, ctx: Context) {
           }
         }
       )
-    await deleteDocCache('thumbnails', ctx.params.id)
-    revalidateTag(LOGS_TAG)
+    await deleteDocument('thumbnails', ctx.params.id)
+    // * 캐시 삭제
+    // revalidateTag(LOGS_TAG)
+    revalidatePath('/')
 
     return NextResponse.json(
       { state: 'success', data: null, message: '썸네일이 삭제되었습니다.' },

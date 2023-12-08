@@ -1,22 +1,24 @@
 import { Log, Thumb } from '@/models'
 import { PagenatedItems } from '@/components/PagenatedItems'
-import { errorHandler, fetcher } from '@/utils/api'
+import { fetcher } from '@/utils/api'
+
+// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
+export const dynamic = 'force-dynamic'
 
 interface PostsProps {
   params: { page: string }
 }
 export default async function Posts({ params }: PostsProps) {
-  const [logError, logsRes] = await fetcher<ResponseBase<Log[]>>('api/logs', {
+  const { data: logs }: ResponseBase<Log[]> = await fetcher('api/logs', {
     cache: 'no-cache'
   })
-  const [thumbError, thumbsRes] = await fetcher<ResponseBase<Thumb[]>>(`api/thumbs`, {
+  const { data: thumbs }: ResponseBase<Thumb[]> = await fetcher(`api/thumbs`, {
     cache: 'no-cache'
   })
-  if (!logsRes || !thumbsRes) return errorHandler([logError, thumbError])
 
-  const items = logsRes.data
+  const items = logs
     .map((log) => {
-      const thumb = thumbsRes.data.find((thumb) => thumb.id === log.thumbnailId)
+      const thumb = thumbs.find((thumb) => thumb.id === log.thumbnailId)
       return {
         id: log.id,
         title: log.title,
@@ -35,6 +37,3 @@ export default async function Posts({ params }: PostsProps) {
     </div>
   )
 }
-
-// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
-export const dynamic = 'force-dynamic'

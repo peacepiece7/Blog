@@ -1,9 +1,6 @@
 import 'server-only'
 
 import { initializeApp } from 'firebase/app'
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 const fetchFirebaseConfig = () => {
   const firebaseConfig = {
@@ -17,16 +14,14 @@ const fetchFirebaseConfig = () => {
   }
 
   if (process.env.NODE_BUILD === 'build') {
-    console.log('NODE_BUILD 출력 확인')
+    console.log('🏛️🔨 build time 🏛️🔨')
   } else {
-    console.log('NODE_BUILD가 출력되지 않습니다.')
+    console.log(`🚌🚎 ${process.env.NODE_ENV} run time 🚗🚕`)
   }
 
-  console.log('is single ton instance?')
   return firebaseConfig
 }
 
-let i = 0
 export const init = initializeApp(fetchFirebaseConfig())
 // export const store = getFirestore(init)
 // export const analytics = getAnalytics(init)
