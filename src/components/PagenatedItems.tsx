@@ -10,8 +10,9 @@ type Props = {
   page: number
   items: PagenationItem[]
   baseUrl?: string
+  pageRangeDisplayed?: number
 }
-export default function PagenatedItems({ itemsPerPage = 5, page = 0, items, baseUrl }: Props) {
+export default function PagenatedItems({ itemsPerPage = 5, page = 0, items, baseUrl, pageRangeDisplayed = 5 }: Props) {
   const { curPageItem, pageCnt, onPageChange } = usePagenation({ items, itemsPerPage, page, baseUrl })
 
   return (
@@ -24,7 +25,7 @@ export default function PagenatedItems({ itemsPerPage = 5, page = 0, items, base
           breakLabel=".."
           nextLabel=">"
           onPageChange={onPageChange}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={pageRangeDisplayed}
           pageCount={pageCnt}
           previousLabel="<"
           forcePage={page}

@@ -84,3 +84,18 @@ export const addIdToHeaderTag = (html: string) => {
 export const getBaseUrl = () => {
   return process.env.NODE_ENV === 'development' ? `http://127.0.0.1:3000` : `https://${process.env.VERCEL_URL}`
 }
+
+// * progress bar를 표기합니다.
+
+export function paintProgressBar(containerId: string, barId: string) {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+  const scrolled = (winScroll / height) * 100
+  const container = document.getElementById(containerId)!
+
+  // * scroll bar container를 visible/hidden 합니다.
+  scrolled > 5 ? (container.style.visibility = 'visible') : (container.style.visibility = 'hidden')
+
+  const progressBar = document.getElementById(barId)!
+  progressBar.style.width = scrolled + '%'
+}

@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost', 'firebasestorage.googleapis.com', 'avatars.githubusercontent.com'],
+    domains: ['localhost', 'firebasestorage.googleapis.com', 'avatars.githubusercontent.com']
   },
-  reactStrictMode: false,
+  reactStrictMode: false
 }
 
 module.exports = nextConfig

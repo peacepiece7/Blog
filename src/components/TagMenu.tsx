@@ -34,7 +34,7 @@ export default function TagMenu() {
   return (
     <div>
       <p id="tagBtn" onClick={openMenu} className="cursor-pointer m-0 hover:text-red-500 transition-all">
-        tags
+        Tag
       </p>
       {/* PORTAL로 보낼까? */}
       <div

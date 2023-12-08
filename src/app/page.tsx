@@ -6,8 +6,8 @@ import { getBaseUrl } from '@/utils'
 export default async function Home() {
   const logs: LogsResponse = await fetch(`${getBaseUrl()}/api/logs`).then((res) => res.json())
   const thumbs: ThumbnailsResponse = await fetch(`${getBaseUrl()}/api/thumbs`).then((res) => res.json())
-
   const items = logs
+    .filter((log) => log.tags.find((tag) => tag === 'Log'))
     .map((log) => {
       const thumb = thumbs.find((thumb) => thumb.id === log.thumbnailId)
       return {
@@ -27,7 +27,7 @@ export default async function Home() {
         <Profile />
         <section className="pt-32 pb-32">
           <h1 className="text-3xl">Latest Logs</h1>
-          <PagenatedItems items={items} page={0} baseUrl="/logs" />
+          <PagenatedItems items={items} page={0} baseUrl="/wiki" pageRangeDisplayed={10} />
         </section>
       </div>
     </div>

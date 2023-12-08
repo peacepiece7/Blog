@@ -4,6 +4,7 @@ import { LogResponse } from '@/type'
 import ViewerCover from '@/components/MdViewerCover'
 import { Suspense } from 'react'
 import LoadingWithSmile from '@/components/LoadingWithSmile'
+import ProgressBar from '@/components/ProgressBar'
 
 type Props = {
   params: {
@@ -15,6 +16,7 @@ export default async function WebLogPage({ params: { id } }: Props) {
 
   return (
     <div className="mb-12">
+      <ProgressBar />
       <section className="flex flex-col items-center">
         <h1 className="text-4xl text-center">{log?.title}</h1>
         <Suspense fallback={<LoadingWithSmile />}>

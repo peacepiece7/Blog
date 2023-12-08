@@ -12,7 +12,7 @@ export default async function LogPage({ params: { page } }: Props) {
   const thumbs: ThumbnailsResponse = await fetch(`${getBaseUrl()}/api/thumbs`).then((res) => res.json())
 
   const items = logs
-    .filter((log) => log.tags.find((tag) => tag === 'Log'))
+    .filter((log) => !log.tags.find((tag) => tag === 'Log'))
     .map((log) => {
       const thumb = thumbs.find((thumb) => thumb.id === log.thumbnailId)
       return {
@@ -28,7 +28,7 @@ export default async function LogPage({ params: { page } }: Props) {
 
   return (
     <div className="max-w-7xl inset-0 m-auto pl-5 pr-5 mb-12 mt-24">
-      <h1 className="mb-4">Logs</h1>
+      <h1 className="mb-4">wiki</h1>
       <PagenatedItems items={items} page={parseInt(page) - 1} pageRangeDisplayed={10} />
     </div>
   )

@@ -13,18 +13,18 @@ export default async function Header() {
         <nav className="flex items-center">
           <ul className="flex justify-between">
             <li className="pr-4">
-              <Link href="/" prefetch={false} className="hover:text-red-500 transition-all">
-                Home
+              <Link href="/wiki/1" prefetch={false} className="hover:text-red-500 transition-all">
+                Wiki
               </Link>
             </li>
             <li className="pr-4">
               <TagMenu />
             </li>
-            <li className="pr-4">
+            {/* <li className="pr-4">
               <Link href="/logs/1" prefetch={false} className="hover:text-red-500 transition-all">
-                Logs
+                Log
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>

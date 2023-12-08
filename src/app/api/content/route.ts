@@ -6,6 +6,7 @@ type Context = {
   query: { path: string }
 }
 export async function GET(request: NextRequest, ctx: Context) {
+  if (!request.url) return new Response('INVALID REQEUST ', { status: 400 })
   const url = new URL(request.url)
   const params = new URLSearchParams(url.searchParams)
   const path = params.get('path')
