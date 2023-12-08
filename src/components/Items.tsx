@@ -1,3 +1,4 @@
+'use client'
 import { LogsResponse, ThumbnailsResponse } from '@/type'
 import Link from 'next/link'
 
@@ -19,7 +20,7 @@ export default function Items({ logs, thumbs: thumbnails }: Props) {
           >
             <div className='pb-4 flex-1'>
               <Link
-                prefetch={false}
+                prefetch={process.env.NODE_ENV === 'production'}
                 href={`/log/${log.id}`}
               >
                 <div
@@ -42,7 +43,7 @@ export default function Items({ logs, thumbs: thumbnails }: Props) {
                     )
                   })}
                 </p>
-                <p className='text-end pt-4'>{`Last Modified At : ${log.lastModifiedAt}`}</p>
+                <p className='text-end pt-4'>{`Created At : ${log.createdAt}`}</p>
               </Link>
             </div>
           </div>

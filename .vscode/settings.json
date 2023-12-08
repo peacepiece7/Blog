@@ -24,14 +24,14 @@
     "html" // Add "html" to enable linting `.html` files.
   ],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": true // eslint auto fix를 enableg합니다.
   },
 
   // * vscode 기능 설정
   "editor.linkedEditing": true,
   "editor.minimap.autohide": true,
   "eslint.enable": true,
-  "window.zoomLevel": 1, // zoom level을 기본값으로 설정
+  "window.zoomLevel": 0, // zoom level을 기본값으로 설정
   "editor.snippetSuggestions": "top" // intellisense가 최상위에 sinnpet을 출력합니다.
 
   // theme

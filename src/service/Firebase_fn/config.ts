@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { initializeApp } from 'firebase/app'
 import dotenv from 'dotenv'
 
@@ -12,6 +14,7 @@ const firebaseConfig = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 }
 
+let i = 0
 export const init = initializeApp(firebaseConfig)
 // export const store = getFirestore(init)
 // export const analytics = getAnalytics(init)

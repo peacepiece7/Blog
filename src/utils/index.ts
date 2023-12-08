@@ -3,7 +3,7 @@ import MarkdownIt from 'markdown-it'
 export const randomBrightColor = (str: string) => {
   var hash = 0
   for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+    hash = str.charCodeAt(i) + ((hash << 14) - hash)
   }
   let colour = '#'
   for (let i = 0; i < 3; i++) {
@@ -20,9 +20,15 @@ export type Toc = {
 // * Markdown에서 Table of Content를 생성합니다.
 export const createToc = (markdown: string) => {
   const toc = [] as Toc[]
+  let flag = false
   const headers = markdown
     .split('\n')
-    .filter((line) => line.startsWith('#'))
+    .filter((line) => {
+      if (line.startsWith('```')) flag = !flag
+      if (flag) return false
+      if (!line.startsWith('#')) return false
+      return true
+    })
     .join('\n')
   const md = new MarkdownIt({
     html: true,

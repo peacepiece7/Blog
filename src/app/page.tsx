@@ -1,17 +1,17 @@
 import { LogsResponse, ThumbnailsResponse } from '@/type'
 import Image from 'next/image'
 
-import FirebaseCollection from '@/service/Firebase/collection'
 import PagenatedItems from '@/components/PagenatedItems'
+import { getFetcher } from '@/service/fetcher'
 
 export default async function Home() {
-  const db = new FirebaseCollection()
-  const logs = await db.getDocs<LogsResponse>('logs')
-  const thumbnails = await db.getDocs<ThumbnailsResponse>('thumbnails')
+  const response = await getFetcher('logs', 'thumbnails')
+  const logs: LogsResponse = response[0].logs
+  const thumbnails: ThumbnailsResponse = response[1].thumbnails
 
   return (
     <main className='relative overflow-hidden'>
-      <div className='max-w-7xl inset-0 m-auto pl-5 pr-5'>
+      <div className='max-w-7xl inset-0 m-auto pl-5 pr-5 mb-12'>
         <div className='flex mt-24'>
           <Image
             className='rounded-[75px] border-[1px] border-[rgba(255,255,255,0.1)]'
@@ -23,7 +23,6 @@ export default async function Home() {
           <div className='pl-24'>
             <h1 className='pb-4'>TaeUk Jung</h1>
             <p className='pb-4'>FRONT-END DEVELOPER</p>
-
             <a
               className='flex mt-4 hover:text-red-500 transition-all'
               href='https://github.com/peacepiece7'
@@ -43,7 +42,6 @@ export default async function Home() {
             </a>
           </div>
         </div>
-
         <section className='pt-32 pb-32'>
           <h1 className='text-3xl pb-10'>Latest Logs</h1>
           {logs ? (
