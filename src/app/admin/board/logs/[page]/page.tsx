@@ -1,16 +1,22 @@
-import { LogsResponse, ThumbnailsResponse } from '@/type'
-import { getBaseUrl } from '@/utils'
-import PagenatedItems from '@/components/PagenatedItems'
+import { Log, Thumb } from '@/models'
+import { PagenatedItems } from '@/components/PagenatedItems'
+import { errorHandler, fetcher } from '@/utils/api'
 
-type Props = {
+interface PostsProps {
   params: { page: string }
 }
-export default async function Posts({ params }: Props) {
-  const logs: LogsResponse = await fetch(`${getBaseUrl()}/api/logs`).then((res) => res.json())
-  const thumbs: ThumbnailsResponse = await fetch(`${getBaseUrl()}/api/thumbs`).then((res) => res.json())
-  const items = logs
+export default async function Posts({ params }: PostsProps) {
+  const [logError, logsRes] = await fetcher<ResponseBase<Log[]>>('api/logs', {
+    cache: 'no-cache'
+  })
+  const [thumbError, thumbsRes] = await fetcher<ResponseBase<Thumb[]>>(`api/thumbs`, {
+    cache: 'no-cache'
+  })
+  if (!logsRes || !thumbsRes) return errorHandler([logError, thumbError])
+
+  const items = logsRes.data
     .map((log) => {
-      const thumb = thumbs.find((thumb) => thumb.id === log.thumbnailId)
+      const thumb = thumbsRes.data.find((thumb) => thumb.id === log.thumbnailId)
       return {
         id: log.id,
         title: log.title,
@@ -29,3 +35,6 @@ export default async function Posts({ params }: Props) {
     </div>
   )
 }
+
+// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
+export const dynamic = 'force-dynamic'

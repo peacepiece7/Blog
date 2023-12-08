@@ -1,11 +1,13 @@
-import { TagResponse, ThumbnailDocument } from '@/type'
 import { NextResponse } from 'next/server'
+import { Tag, ThumbnailDocument } from '@/models'
 import { addDocCache } from '@/service/Firebase_fn/collection'
+import { revalidateTag } from 'next/cache'
+import { LOGS_TAG } from '@/constants/tag'
 
 // * Add Tag API
 export async function POST(request: Request) {
   try {
-    const tag = (await request.json()) as AddTagsRequest
+    const tag: AddTagsRequest = await request.json()
 
     // * 썸네일 저장
     const res = await addDocCache<ThumbnailDocument>('thumbnails', {
@@ -15,15 +17,15 @@ export async function POST(request: Request) {
     const thumbId = res.id
 
     // * 태그 저장
-    await addDocCache<Omit<TagResponse, 'id'>>('tags', {
+    await addDocCache<Omit<Tag, 'id'>>('tags', {
       name: tag.name,
       thumbnailId: thumbId
     })
-
-    return NextResponse.json({ state: 'success', response: '' })
+    revalidateTag(LOGS_TAG)
+    return NextResponse.json({ state: 'success', data: null, message: '태그가 추가되었습니다.' }, { status: 200 })
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ state: 'failure', error })
+    return NextResponse.json({ state: 'failure', data: null, meessage: '태그를 추가하지 못했습니다.' }, { status: 500 })
   }
 }
 

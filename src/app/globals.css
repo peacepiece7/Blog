@@ -83,12 +83,12 @@ tbody th {
 @media screen and (max-width: 640px) {
   html,
   body {
-    font-size: 12px;
+    font-size: 13px;
   }
 }
 @media screen and (max-width: 480px) {
   html,
   body {
-    font-size: 11px;
+    font-size: 12px;
   }
 }

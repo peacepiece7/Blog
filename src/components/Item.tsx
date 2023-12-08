@@ -4,10 +4,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { randomBrightColor } from '@/utils'
 
-type Props = {
+interface ItemProps {
   item: PagenationItem
 }
-export default function Item({ item }: Props) {
+export default function Item({ item }: ItemProps) {
   return (
     <div className="flex hover:drop-shadow-xl p-4 transition ease-in-out bg-white rounded-xl mt-12">
       <div className="pb-4 flex-1">

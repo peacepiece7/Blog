@@ -1,14 +1,16 @@
 'use client'
-import { LogsResponse, TagResponse, ThumbnailResponse } from '@/type'
+import { Log, Tag, Thumb } from '@/models'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { fetcher } from '@/utils/api'
 
-type Props = {
-  tag: TagResponse
-  thumb: ThumbnailResponse
-  logs: LogsResponse
+interface TagEditFormProps {
+  tag: Tag
+  thumb: Thumb
+  logs: Log[]
 }
-export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Props) {
+
+export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: TagEditFormProps) {
   const [tagName, setTagName] = useState(tagProp.name)
   const [source, setSource] = useState(thumbProp.source)
   const router = useRouter()
@@ -17,11 +19,11 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Pr
   async function updateTag() {
     // * 태그 이름이 변경되면 태그 이름과 로그를 업데이트 합니다.
     if (tagName !== tagProp.name) {
-      const tag: TagResponse = {
+      const tag: Tag = {
         ...tagProp,
         name: tagName
       }
-      await fetch('/api/update/tag', {
+      await fetcher('api/tag/update', {
         method: 'POST',
         body: JSON.stringify(tag)
       })
@@ -29,7 +31,7 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Pr
         const isExist = log.tags.find((tag) => tag === tagProp.name)
         if (!isExist) return
         log.tags = log.tags.map((tag) => (tag === tagProp.name ? tagName : tag))
-        fetch('/api/update/log', {
+        fetcher('api/log/update', {
           method: 'POST',
           body: JSON.stringify(log)
         })
@@ -37,11 +39,11 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Pr
     }
     // * 썸네일이 변경되면 업데이트 합니다.
     if (source !== thumbProp.source) {
-      const thumb: ThumbnailResponse = {
+      const thumb: Thumb = {
         ...thumbProp,
         source
       }
-      await fetch('/api/update/thumbnail', {
+      await fetcher('api/thumb', {
         method: 'POST',
         body: JSON.stringify(thumb)
       })
@@ -52,21 +54,19 @@ export default function TagEditForm({ logs, tag: tagProp, thumb: thumbProp }: Pr
     const trigger = prompt('Are you sure you want to delete this tag?\nso, type "delete"')
     if (trigger !== 'delete') return
 
-    await fetch('/api/delete/tag', {
-      method: 'POST',
-      body: JSON.stringify(tagProp)
+    await fetcher(`api/tag?id=${tagProp.id}`, {
+      method: 'POST'
     })
 
-    await fetch('/api/delete/thumbnail', {
-      method: 'POST',
-      body: JSON.stringify(thumbProp)
+    await fetcher(`api/thumb?id=${thumbProp.id}`, {
+      method: 'POST'
     })
 
     logs.forEach((log) => {
       const isExist = log.tags.find((tag) => tag === tagProp.name)
       if (!isExist) return
       log.tags = log.tags.filter((tag) => tag !== tagProp.name)
-      fetch('/api/update/log', {
+      fetcher('/api/log/update', {
         method: 'POST',
         body: JSON.stringify(log)
       })

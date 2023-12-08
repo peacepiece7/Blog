@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 
-export default function Profile() {
+export const Profile = () => {
   return (
     <div className="flex mt-24">
       <Image

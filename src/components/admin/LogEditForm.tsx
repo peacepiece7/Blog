@@ -1,22 +1,19 @@
 'use client'
-import { LogResponse, TagsResponse } from '@/type'
-
+import { Log, Tag } from '@/models'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import dayjs from 'dayjs'
-
 import { randomBrightColor } from '@/utils'
-import { DeleteRequest } from '@/app/api/delete/log/route'
 import { DATE_FORMAT } from '@/constants'
-
 import MarkdownViewer from '../MarkdownViewer'
+import { errorHandler, fetcher } from '@/utils/api'
 
-type Props = {
-  log: LogResponse
+interface LogEditFormProps {
+  log: Log
+  tags: Tag[]
   content: string
-  tags: TagsResponse
 }
-export default function LogEditForm({ log, content: contentProp, tags: tagsProp }: Props) {
+export default function LogEditForm({ log, content: contentProp, tags: tagsProp }: LogEditFormProps) {
   const [content, setContent] = useState(contentProp)
   const [tags, setTags] = useState(log.tags)
   const [title, setTitle] = useState(log.title)
@@ -42,29 +39,29 @@ export default function LogEditForm({ log, content: contentProp, tags: tagsProp 
   async function updateLog() {
     const textarea = document.querySelector('.weblog-textarea') as HTMLTextAreaElement
     if (contentProp !== content) {
-      await fetch('/api/update/content', {
+      const [contentError] = await fetcher<ResponseBase<null>>('api/content', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: JSON.stringify({
           storagePath: log.storagePath,
           content: textarea.value
         })
       })
+      if (contentError) return errorHandler(contentError)
     }
     if (title !== log.title || JSON.stringify(tags) !== JSON.stringify(log.tags) || contentProp !== content) {
-      const curLog: LogResponse = {
+      const curLog: Log = {
         ...log,
         title: title,
         tags: tags,
         lastModifiedAt: dayjs().format(DATE_FORMAT)
       }
-      await fetch('/api/update/log', {
+      const [logError] = await fetcher('api/log/update', {
         method: 'POST',
         body: JSON.stringify(curLog)
       })
+      if (logError) return errorHandler(logError)
     }
+
     router.push('/admin/board/logs/1')
   }
 
@@ -82,18 +79,20 @@ export default function LogEditForm({ log, content: contentProp, tags: tagsProp 
   async function deleteLog() {
     const trigger = prompt('Are you sure you want to delete this post?\nso, type "delete"')
     if (trigger !== 'delete') return
-    const body: DeleteRequest = {
-      logId: log.id,
-      thumbnailId: log.thumbnailId,
-      storagePath: log.storagePath
-    }
-    await fetch('/api/delete/log', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
+    const [logError] = await fetcher(`api/log/${log.id}`, {
+      method: 'POST'
     })
+    if (logError) return errorHandler(logError)
+
+    const [contentError] = await fetcher(`api/content/${log.storagePath}`, {
+      method: 'POST'
+    })
+    if (contentError) {
+      return errorHandler(contentError)
+    }
+
+    // * ISR은 invalidate한 요청을 반환하고 refetch하기때문에, 캐시를 삭제해도
+    // * 첫 이동은 새로운 데이터를 가져오지 못합니다.
     router.push('/admin/board/logs/1')
   }
 

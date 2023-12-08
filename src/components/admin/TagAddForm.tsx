@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { errorHandler, fetcher } from '@/utils/api'
 
 export default function TagAddForm() {
   const [name, setName] = useState('')
@@ -8,13 +9,14 @@ export default function TagAddForm() {
   const router = useRouter()
 
   const addTag = async () => {
-    await fetch('/api/add/tag', {
+    const [tagError] = await fetcher<ResponseBase<null>>('api/tag', {
       method: 'POST',
       body: JSON.stringify({
         name: name,
         thumbnail: thumbnail
       })
     })
+    if (tagError) return errorHandler(tagError)
     router.push('/admin/board/tags/1')
   }
 

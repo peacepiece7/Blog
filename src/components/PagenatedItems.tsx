@@ -5,14 +5,20 @@ import { usePagenation } from '@/hooks/pagenation'
 import './PagenatedItems.css'
 import SkeletonItems from './SkeletonItems'
 
-type Props = {
+interface PagenationProps {
   itemsPerPage?: number
   page: number
   items: PagenationItem[]
   baseUrl?: string
   pageRangeDisplayed?: number
 }
-export default function PagenatedItems({ itemsPerPage = 5, page = 0, items, baseUrl, pageRangeDisplayed = 5 }: Props) {
+export const PagenatedItems = ({
+  itemsPerPage = 5,
+  page = 0,
+  items,
+  baseUrl,
+  pageRangeDisplayed = 5
+}: PagenationProps) => {
   const { curPageItem, pageCnt, onPageChange } = usePagenation({ items, itemsPerPage, page, baseUrl })
 
   return (

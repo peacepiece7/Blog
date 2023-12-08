@@ -7,7 +7,6 @@ export default function ProgressBar() {
   const scroll = useScroll()
 
   useEffect(() => {
-    if (!window) return
     paintProgressBar('progress-container', 'progress-bar')
   }, [scroll])
 

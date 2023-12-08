@@ -1,6 +1,6 @@
 # Web-log
 
-# techologies and skills
+# Techologies and skills
 
 - NextJS
 - TypeScript 
@@ -8,4 +8,4 @@
 - Firebase Storage
 - Vercel
 
-# tescode
+# Test

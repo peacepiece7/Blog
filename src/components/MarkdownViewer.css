@@ -12,7 +12,7 @@
   white-space: nowrap;
 }
 #toc li a:hover {
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 #toc li[data-level='1'] {
   margin-left: 0rem;
@@ -41,7 +41,14 @@
   background: rgba(0, 0, 0, 0.2);
   border-radius: 7px;
 }
-
+#markdown-body * {
+  /* font-family: var(--font-azeret-mono); */
+  font-weight: 300;
+  line-height: 1.2rem;
+}
+#markdown-body strong {
+  font-weight: 700;
+}
 #markdown-body img {
   display: block;
   max-width: 500px;
@@ -62,7 +69,6 @@
 
 #markdown-body h3,
 #markdown-body h4 {
-  font-weight: 500;
   line-height: 3rem;
   margin: 2rem 0 0 0;
 }
@@ -74,7 +80,6 @@
 #markdown-body h5 a,
 #markdown-body h6 a {
   color: black;
-  font-weight: 400;
   text-decoration: none;
 }
 
@@ -90,7 +95,7 @@
 }
 #markdown-body a {
   color: rgb(17, 153, 187);
-  font-weight: 500;
+  /* font-weight: 500; */
   text-decoration: none;
 }
 #markdown-body p,
@@ -112,24 +117,17 @@
 }
 #markdown-body pre {
   margin-top: 0;
-  padding: 1rem 1rem calc(1rem - 20px) 1rem;
-  /* background-color: rgba(0, 0, 0,); */
-  overflow-x: scroll;
+  padding: 1rem;
 }
 #markdown-body pre::-webkit-scrollbar {
-  background-color: transparent;
+  display: none;
 }
 #markdown-body pre::-webkit-scrollbar-thumb {
-  background-color: transparent;
+  display: none;
   border-radius: 10px;
 }
 #markdown-body pre::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-#markdown-body * {
-  font-family: var(--font-azeret-mono);
-  font-weight: 300;
-  line-height: 1.2rem;
+  display: none;
 }
 #markdown-body code::before {
   content: '';
@@ -139,7 +137,7 @@
 }
 #markdown-body code {
   color: rgb(238, 106, 109);
-  font-weight: 400;
+  /* font-weight: 400; */
   padding: 2px;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -152,7 +150,7 @@
 
 #markdown-body pre code {
   background-color: transparent;
-  font-weight: 400;
+  /* font-weight: 400; */
   padding: 0;
   color: white;
 }

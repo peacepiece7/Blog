@@ -1,20 +1,39 @@
-import PagenatedItems from '@/components/PagenatedItems'
-import { LogsResponse, ThumbnailsResponse } from '@/type'
-import { getBaseUrl } from '@/utils'
+import { PagenatedItems } from '@/components/PagenatedItems'
+import { REVALIDATE_DEFAULT_TIME } from '@/constants'
+import { LOGS_TAG } from '@/constants/tag'
+import { Log, Thumb } from '@/models'
+import { errorHandler, fetcher } from '@/utils/api'
 
-type Props = {
+// export const revalidate = REVALIDATE_DEFAULT_TIME
+export const dynamic = 'force-static'
+
+export const metadata = {
+  title: 'Web Log | wiki',
+  description: 'Playground for me'
+}
+
+interface LogPageProps {
   params: {
     page: string
   }
 }
-export default async function LogPage({ params: { page } }: Props) {
-  const logs: LogsResponse = await fetch(`${getBaseUrl()}/api/logs`).then((res) => res.json())
-  const thumbs: ThumbnailsResponse = await fetch(`${getBaseUrl()}/api/thumbs`).then((res) => res.json())
 
-  const items = logs
+export default async function LogPage({ params: { page } }: LogPageProps) {
+  const [logError, logRes] = await fetcher<ResponseBase<Log[]>>('api/logs', {
+    // cache: 'force-cache' // * default force-cache, 명시용 hack code
+    next: { revalidate: REVALIDATE_DEFAULT_TIME, tags: [LOGS_TAG] }
+  })
+  const [thumbError, thumbsRes] = await fetcher<ResponseBase<Thumb[]>>('api/thumbs', {
+    // cache: 'force-cache' // * default force-cache, 명시용 hack code
+    next: { revalidate: REVALIDATE_DEFAULT_TIME, tags: [LOGS_TAG] }
+  })
+
+  if (!logRes || !thumbsRes) return errorHandler([logError, thumbError])
+
+  const logItems = logRes.data
     .filter((log) => log.tags.find((tag) => tag === 'Log'))
     .map((log) => {
-      const thumb = thumbs.find((thumb) => thumb.id === log.thumbnailId)
+      const thumb = thumbsRes.data.find((thumb) => thumb.id === log.thumbnailId)
       return {
         id: log.id,
         title: log.title,
@@ -29,12 +48,7 @@ export default async function LogPage({ params: { page } }: Props) {
   return (
     <div className="max-w-7xl inset-0 m-auto pl-5 pr-5 mb-12 mt-24">
       <h1 className="mb-4">Logs</h1>
-      <PagenatedItems items={items} page={parseInt(page) - 1} pageRangeDisplayed={10} />
+      <PagenatedItems items={logItems} page={parseInt(page) - 1} pageRangeDisplayed={10} />
     </div>
   )
-}
-
-export const metadata = {
-  title: 'Web Log | wiki',
-  description: 'Playground for me'
 }

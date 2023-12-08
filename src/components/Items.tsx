@@ -1,7 +1,7 @@
 'use client'
 import Item from './Item'
 
-export type PagenationItem = {
+export interface PagenationItem {
   id: string
   title: string
   svg?: string
@@ -10,11 +10,11 @@ export type PagenationItem = {
   url?: string
 }
 
-type Props = {
+interface ItemsProps {
   items: PagenationItem[]
 }
 
-export default function Items({ items }: Props) {
+export default function Items({ items }: ItemsProps) {
   return (
     <div className="pt-12">
       {items.map((item) => {

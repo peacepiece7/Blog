@@ -1,11 +1,12 @@
-import { LogDocument } from '@/type'
 import { NextResponse } from 'next/server'
+import { LogDocument } from '@/models'
 import { v1 } from 'uuid'
-
 import { addDocCache } from '@/service/Firebase_fn/collection'
 import { uploadContentDataCache } from '@/service/Firebase_fn/storage'
+import { revalidateTag } from 'next/cache'
+import { LOGS_TAG } from '@/constants/tag'
 
-// * Add Log API
+// * 새로운 로그 추가
 export async function POST(request: Request) {
   try {
     const log = (await request.json()) as AddLogRequest
@@ -25,10 +26,29 @@ export async function POST(request: Request) {
     }
     await addDocCache<LogDocument>('logs', logDoc)
 
-    return NextResponse.json({ state: 'success', response: '' })
+    // * 캐시 삭제
+    revalidateTag(LOGS_TAG)
+
+    return NextResponse.json(
+      { state: 'success', data: null, message: '컨텐츠가 추가되었습니다.' },
+      {
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
+      }
+    )
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ state: 'failure', error })
+    return NextResponse.json(
+      { state: 'failure', data: null, message: '컨텐츠를 추가하지 못했습니다.' },
+      {
+        status: 500,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
+      }
+    )
   }
 }
 

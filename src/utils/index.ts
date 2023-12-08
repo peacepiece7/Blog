@@ -86,7 +86,6 @@ export const getBaseUrl = () => {
 }
 
 // * progress bar를 표기합니다.
-
 export function paintProgressBar(containerId: string, barId: string) {
   const winScroll = document.body.scrollTop || document.documentElement.scrollTop
   const height = document.documentElement.scrollHeight - document.documentElement.clientHeight

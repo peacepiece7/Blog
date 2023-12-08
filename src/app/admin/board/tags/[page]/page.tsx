@@ -1,17 +1,22 @@
-import { TagsResponse, ThumbnailsResponse } from '@/type'
-import { getBaseUrl } from '@/utils'
-import PagenatedItems from '@/components/PagenatedItems'
+import { Tag, Thumb } from '@/models'
+import { PagenatedItems } from '@/components/PagenatedItems'
+import { errorHandler, fetcher } from '@/utils/api'
 
-type Props = {
+interface TagsProps {
   params: { page: string }
 }
-export default async function Tags({ params: { page } }: Props) {
-  const tags: TagsResponse = await fetch(`${getBaseUrl()}/api/tags`).then((res) => res.json())
-  const thumbs: ThumbnailsResponse = await fetch(`${getBaseUrl()}/api/thumbs`).then((res) => res.json())
+export default async function Tags({ params: { page } }: TagsProps) {
+  const [tagsError, tagsRes] = await fetcher<ResponseBase<Tag[]>>('api/tags', {
+    cache: 'no-cache'
+  })
+  const [thumbsError, thumbsRes] = await fetcher<ResponseBase<Thumb[]>>(`api/thumbs`, {
+    cache: 'no-cache'
+  })
+  if (!tagsRes || !thumbsRes) return errorHandler([tagsError, thumbsError])
 
-  const items = tags
+  const items = tagsRes.data
     .map((tag) => {
-      const thumb = thumbs.find((thumb) => thumb.id === tag.thumbnailId)
+      const thumb = thumbsRes.data.find((thumb) => thumb.id === tag.thumbnailId)
       return {
         id: tag.id,
         title: tag.name,
@@ -29,3 +34,6 @@ export default async function Tags({ params: { page } }: Props) {
     </div>
   )
 }
+
+// * 어드민 페이지는 모두 정적으로 생성되지 않도록 한다.
+export const dynamic = 'force-dynamic'

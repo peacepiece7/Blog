@@ -1,13 +1,11 @@
 // * firebase response type
-export type TagsResponse = TagResponse[]
-export type TagResponse = {
+export type Tag = {
   id: string
   name: string
   thumbnailId: string
 }
 
-export type LogsResponse = LogResponse[]
-export type LogResponse = {
+export type Log = {
   id: string
   thumbnailId?: string
   storagePath: string
@@ -17,8 +15,7 @@ export type LogResponse = {
   createdAt: string
 }
 
-export type ThumbnailsResponse = ThumbnailResponse[]
-export type ThumbnailResponse = {
+export type Thumb = {
   id: string
   name: string
   source: string

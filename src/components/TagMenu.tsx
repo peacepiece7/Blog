@@ -1,13 +1,13 @@
 'use client'
-import useSWR from 'swr'
-import { LogsResponse, TagsResponse } from '@/type'
+import { Log, Tag } from '@/models'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
-export default function TagMenu() {
-  const { data: logs } = useSWR<LogsResponse>('/api/logs')
-  const { data: tags } = useSWR<TagsResponse>('/api/tags')
-
+interface TagMenuProps {
+  logs: Log[]
+  tags: Tag[]
+}
+export default function TagMenu({ logs, tags }: TagMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {

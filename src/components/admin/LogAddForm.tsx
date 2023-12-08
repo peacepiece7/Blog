@@ -1,23 +1,23 @@
 'use client'
-import { TagsResponse } from '@/type'
+import { Tag } from '@/models'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import dayjs from 'dayjs'
 import { randomBrightColor } from '@/utils'
 import { DATE_FORMAT } from '@/constants'
 import MarkdownViewer from '../MarkdownViewer'
-import type { AddLogRequest } from '@/app/api/add/log/route'
+import { AddLogRequest } from '@/app/api/log/route'
+import { errorHandler, fetcher } from '@/utils/api'
 
-type Props = {
-  tags: TagsResponse
+interface LogAddFormProps {
+  tags: Tag[]
 }
-export default function LogAddForm({ tags }: Props) {
+export default function LogAddForm({ tags }: LogAddFormProps) {
   const [fileName, setFileName] = useState('example')
   const [title, setTitle] = useState('')
   const [thumbnailName, setThumbnailName] = useState('')
   const [tagsState, setTagsState] = useState([] as string[])
   const [content, setContent] = useState('')
-
   const router = useRouter()
 
   useEffect(() => {
@@ -74,10 +74,11 @@ export default function LogAddForm({ tags }: Props) {
       lastModifiedAt: date,
       fileName: fileName
     }
-    await fetch('/api/add/log', {
+    const [errorLog, logRes] = await fetcher<ResponseBase<null>>('api/log', {
       method: 'POST',
       body: JSON.stringify(log)
     })
+    if (!logRes) return errorHandler(errorLog)
     router.push('/admin/board/logs/1')
   }
 

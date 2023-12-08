@@ -1,10 +1,11 @@
 import { PagenationItem } from '@/components/Items'
-import PagenatedItems from '@/components/PagenatedItems'
-import React from 'react'
+import { PagenatedItems } from '@/components/PagenatedItems'
 
+/**
+ * * items가 정의되어 있기 때문에 PagenatedItems의 SkeletonItems를 Loading 상태 화면에 출력할 수 있음! (useEffect가 있지만 똑똑하게 먼저 UI를 랜더링 함)
+ * *  PagenatedItems가 streaming SSR로 동작함 그래서 내부 컴포넌트가 hooks를 사용함에도 미리 만들어진 HTML을 출력함
+ */
 export default function Loading() {
-  // * items가 정의되어 있기 때문에 PagenatedItems의 SkeletonItems를 Loading 상태 화면에 출력할 수 있음! (useEffect가 있지만 똑똑하게 먼저 UI를 랜더링 함)
-  // * PagenatedItems가 streaming SSR로 동작함 그래서 내부 컴포넌트가 hooks를 사용함에도 미리 만들어진 HTML을 출력함
   const items: PagenationItem[] = [
     {
       id: '',

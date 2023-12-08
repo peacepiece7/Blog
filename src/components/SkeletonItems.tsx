@@ -2,10 +2,10 @@
 import { useEffect } from 'react'
 import Item from './Item'
 
-type Props = {
+interface SkeletonItemsProps {
   items: number
 }
-export default function SkeletonItems({ items }: Props) {
+export default function SkeletonItems({ items }: SkeletonItemsProps) {
   useEffect(() => {
     if (typeof window == 'undefined') return
     const skeleton = document.getElementById('item-skeleton')

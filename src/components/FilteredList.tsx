@@ -1,14 +1,14 @@
 'use client'
-import { LogsResponse, ThumbnailsResponse } from '@/type'
+import { Log, Thumb } from '@/models'
 import Link from 'next/link'
 import { randomBrightColor } from '@/utils'
 
-type Props = {
+interface FilteredListProps {
   basePath: string
-  logs: LogsResponse
-  thumbs: ThumbnailsResponse
+  logs: Log[]
+  thumbs: Thumb[]
 }
-export default function FilteredList({ basePath, logs, thumbs }: Props) {
+export default function FilteredList({ basePath, logs, thumbs }: FilteredListProps) {
   if (!logs || !thumbs) return <div>loading...</div>
 
   return (

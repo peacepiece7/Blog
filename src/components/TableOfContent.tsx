@@ -1,11 +1,11 @@
 'use client'
 import { createToc } from '@/utils'
 
-type Props = {
+interface TOCProps {
   content: string
 }
-export default function TableOfContent({ content: content }: Props) {
-  const toc = createToc(content ? content : '')
+export default function TableOfContent({ content }: TOCProps) {
+  const toc = createToc(content ?? '')
     .map((content) => {
       return `<li data-level="${content.level}"><a href="#${content.text.replaceAll(' ', '_')}" >
     ${content.text}</a></li>`
