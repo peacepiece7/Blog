@@ -5,3 +5,6 @@ export const DATE_FORMAT = 'YYYY-MM-DD'
  */
 export const API_REVALIDATE_TIME = 604800
 export const PAGE_REVALIDATE_TIME = 604800
+
+export const ADMIN_ID_KEY = 'BLOG_ID'
+export const ADMIN_PASSWORD_KEY = 'BLOG_PASS'

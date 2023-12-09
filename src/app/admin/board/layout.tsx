@@ -1,14 +1,14 @@
 'use client'
 import { redirect } from 'next/navigation'
-import AdminHeader from '@/components/admin/AdminHeader'
-import { useAdmin } from '@/hooks/admin'
-import LoadingWithSmile from '@/components/LoadingWithSmile'
+import { AdminHeader } from '@/components/Header/AdminHeader'
+import { SmileLoading } from '@/components/Loading/SmileLoading'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { isAdmin, isLoading } = useAdmin()
+  const { isAdmin, isLoading } = useAuth()
 
-  if (isLoading) return <LoadingWithSmile />
-  if (!isAdmin) return redirect('/')
+  if (isLoading) return <SmileLoading />
+  if (!isAdmin) return redirect('/admin')
 
   return (
     <div>

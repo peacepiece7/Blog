@@ -1,6 +1,6 @@
 import { Azeret_Mono } from 'next/font/google'
-import Header from '@/components/Header'
-import './globals.css'
+import Header from '@/components/Header/Header'
+import '@/styles/global.css'
 
 const AzeretMonoFont = Azeret_Mono({
   subsets: ['latin'],
@@ -11,6 +11,7 @@ export const metadata = {
   title: 'Web Log',
   description: 'Playground for me'
 }
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="kor" className={`${AzeretMonoFont.className}`}>
