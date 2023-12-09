@@ -10,7 +10,7 @@ interface PostsProps {
 }
 export default async function Posts({ params }: PostsProps) {
   const [{ data: logs }, { data: thumbs }] = await Promise.all([
-    fetcher<Log[]>('apiTESTEORR!!!/logs', option),
+    fetcher<Log[]>('api/logs', option),
     fetcher<Thumb[]>('api/thumbs', option)
   ])
 

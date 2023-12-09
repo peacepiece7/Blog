@@ -1,11 +1,17 @@
 #!/bin/bash
 
-branch=$(git branch --show-current)
+echo "VERCEL_ENV: $VERCEL_ENV"
 
-if [ "$branch" == "main" ]; then
-    exit 1
+if [[ "$VERCEL_ENV" == "production" ]] ; then
+  # Proceed with the build
+  echo "✅ - Build can proceed"
+  exit 1;
+
 elif [ "$branch" == "develop" ]; then
-    exit 1
+  echo "✅ - Build can proceed"
+  exit 1;
 else
-    exit 0
+  # Don't build
+  echo "🛑 - Build cancelled"
+  exit 0;
 fi
