@@ -1,9 +1,9 @@
 'use client'
 import { useScroll } from '@/hooks/useScroll'
 import { paintProgressBar } from '@/utils'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
-export default function ProgressBar() {
+export function ProgressBar() {
   const scroll = useScroll()
 
   useEffect(() => {

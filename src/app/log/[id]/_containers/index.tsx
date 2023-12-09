@@ -1,8 +1,8 @@
 // 'use client' <- 차이 체크하기
 import { SmileLoading } from '@/components/Loading/SmileLoading'
-import MdViewerCover from '@/components/PostViewer/MdViewerCover'
-import ProgressBar from '@/components/ProgressBar'
-import ScrollToTop from '@/components/ScrollToTop'
+import { MdViewerCover } from '@/components/PostViewer/MdViewerCover'
+import { ScrollToTop } from './ScrollToTop'
+import { ProgressBar } from './ProgressBar'
 import { Log } from '@/models'
 import { Suspense } from 'react'
 

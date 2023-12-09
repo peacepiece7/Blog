@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import dayjs from 'dayjs'
 import { randomBrightColor } from '@/utils'
 import { DATE_FORMAT } from '@/constants'
-import MarkdownViewer from '@/components/PostViewer/MarkdownViewer'
+import { MarkdownViewer } from '@/components/PostViewer/MarkdownViewer'
 
 interface LogEditFormProps {
   log: Log

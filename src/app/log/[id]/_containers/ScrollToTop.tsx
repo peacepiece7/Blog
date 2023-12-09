@@ -1,7 +1,7 @@
 'use client'
 import { useScroll } from '@/hooks/useScroll'
 
-export default function ScrollToTop() {
+export function ScrollToTop() {
   const [scroll] = useScroll()
 
   return (

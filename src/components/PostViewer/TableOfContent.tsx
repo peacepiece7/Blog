@@ -4,7 +4,7 @@ import { createToc } from '@/utils'
 interface TOCProps {
   content: string
 }
-export default function TableOfContent({ content }: TOCProps) {
+export function TableOfContent({ content }: TOCProps) {
   const toc = createToc(content ?? '')
     .map((content) => {
       return `<li data-level="${content.level}"><a href="#${content.text.replaceAll(' ', '_')}" >
