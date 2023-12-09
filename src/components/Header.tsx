@@ -21,6 +21,7 @@ export default async function Header() {
       }
     })
   ])
+
   if (!logs || !tags) notFound()
 
   return (

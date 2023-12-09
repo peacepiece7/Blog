@@ -11,6 +11,7 @@ export const metadata = {
   title: 'Web Log',
   description: 'Playground for me'
 }
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="kor" className={`${AzeretMonoFont.className}`}>
