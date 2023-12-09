@@ -1,5 +1,4 @@
 import 'server-only'
-
 import { initializeApp } from 'firebase/app'
 
 const fetchFirebaseConfig = () => {

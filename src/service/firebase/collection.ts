@@ -7,13 +7,11 @@ import { addDoc, doc, setDoc, getDoc, collection, getDocs, getFirestore, deleteD
 const db = getFirestore(init)
 
 export const getDocuments = async <T>(_collection: string) => {
-  console.log('getDocuments :', _collection)
   const snapshot = await getDocs(collection(db, _collection))
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as T
 }
 
 export const getDocument = async <T>(_collection: string, id: string) => {
-  console.log('getDocument :', _collection)
   const ref = doc(db, _collection, id)
   const docSnap = await getDoc(ref)
   return { id: docSnap.id, ...docSnap.data() } as T

@@ -8,3 +8,5 @@ export const PAGE_REVALIDATE_TIME = 604800
 
 export const ADMIN_ID_KEY = 'BLOG_ID'
 export const ADMIN_PASSWORD_KEY = 'BLOG_PASS'
+
+export const MAX_ARRAY_BUFFER_SIZE = 1200000

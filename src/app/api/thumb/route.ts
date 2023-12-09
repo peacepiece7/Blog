@@ -1,7 +1,6 @@
 import { Thumb } from '@/models'
-import { getDocument } from '@/service/firebase/collection'
+import { getDocument, setDocument } from '@/service/firebase/collection'
 import { NextResponse } from 'next/server'
-import { setDocument } from '@/service/firebase/collection'
 import { revalidatePath } from 'next/cache'
 
 // * 썸네일 조회
