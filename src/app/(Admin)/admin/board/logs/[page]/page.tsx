@@ -1,6 +1,6 @@
 import { Log, Thumb } from '@/models'
 import { PagenatedItems } from '@/components/PagenatedItems'
-import { fetcher } from '@/utils/api'
+import { fetcher } from '@/utils/server'
 
 // * 어드민 페이지는 정적으로 생성하지 않습니다.
 export const dynamic = 'force-dynamic'

@@ -3,7 +3,7 @@ import { Profile } from '@/components/Profile'
 import { API_REVALIDATE_TIME, PAGE_REVALIDATE_TIME } from '@/constants'
 import { LOGS_TAG } from '@/constants/tag'
 import { Log, Thumb } from '@/models'
-import { getLogsFetcher, getThumbsFetcher } from '@/apis'
+import { getLogsFetcher, getThumbsFetcher } from '@/apis/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 

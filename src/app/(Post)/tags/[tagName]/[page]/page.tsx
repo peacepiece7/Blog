@@ -3,7 +3,7 @@ import { PagenatedItems } from '@/components/PagenatedItems'
 import { API_REVALIDATE_TIME, PAGE_REVALIDATE_TIME } from '@/constants'
 import { LOGS_TAG } from '@/constants/tag'
 import { Log, Thumb } from '@/models'
-import { getLogsFetcher, getThumbsFetcher } from '@/apis'
+import { getLogsFetcher, getThumbsFetcher } from '@/apis/server'
 import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-static'

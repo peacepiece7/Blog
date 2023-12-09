@@ -1,33 +1,5 @@
 import 'server-only'
 
-export interface ErrorResponse {
-  message: string
-}
-
-/**
- * @description fetch API의 에러를 처리하는 함수입니다.
- * Client Component에서 사용해주세요.
- * Server Componenet에서 GET 요청 에러를 임의로 핸들링하면, 빌드 시점에서 에러가 발생할 가능성이 있습니다.
- */
-export async function to<T>(promise: Promise<Response | T>): Promise<[ErrorResponse | null, T | null]> {
-  try {
-    const res = await promise
-    if (res instanceof Response) {
-      const data = await res.json()
-      const result: [null, T] = [null, data]
-      return result
-    }
-    const result: [null, T] = [null, res]
-    return result
-  } catch (error: unknown) {
-    console.error(error)
-    if (error && typeof error === 'object' && 'message' in error && typeof error.message === 'string') {
-      return [{ message: error.message }, null]
-    }
-    return [{ message: '알 수 없는 에러가 발생했습니다.' }, null]
-  }
-}
-
 /**
  * @description fetch API wrapper입니다.
  * @param url 경로를 시작할 때 '/' 를 뺴고 입력해주세요.

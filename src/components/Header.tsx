@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import TagMenu from '@/components/TagMenu'
 import { notFound } from 'next/navigation'
-import { getLogsFetcher, getTagsFetcher } from '@/apis'
+import { getLogsFetcher, getTagsFetcher } from '@/apis/server'
 import { Log, Tag } from '@/models'
 import { API_REVALIDATE_TIME } from '@/constants'
 import { LOGS_TAG } from '@/constants/tag'

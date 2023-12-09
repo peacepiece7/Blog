@@ -1,7 +1,7 @@
 import 'server-only'
 import { getDocument, getDocuments } from '@/service/firebase/collection'
 import { getStorageContent } from '@/service/firebase/storage'
-import { fetcher } from '@/utils/api'
+import { fetcher } from '@/utils/server'
 
 export const getLogsFetcher = async <T>(url: string, options?: RequestInit) => {
   if (process.env.NODE_BUILD === 'build') {

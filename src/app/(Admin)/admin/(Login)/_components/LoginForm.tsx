@@ -1,21 +1,23 @@
 'use client'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAdmin } from '@/hooks/useAdmin'
 
-export default function AdminLoginForm() {
+export default function LoginForm() {
   const router = useRouter()
+  const { setPersistedAdmin } = useAdmin()
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
 
-  function setUserInfoToLocalStorage(e: React.FormEvent<HTMLFormElement>) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    localStorage.setItem('weblogId', name)
-    localStorage.setItem('weblogPassword', password)
+    setPersistedAdmin(name, password)
+    // 접근 권한은 어드민 페이지 layout에서 확인합니다.
     router.push('/admin/board/logs/1')
   }
 
   return (
-    <form className="flex flex-col max-w-2xl ml-12" onSubmit={setUserInfoToLocalStorage}>
+    <form className="flex flex-col max-w-2xl ml-12" onSubmit={onSubmit}>
       <input
         className="h-12 mt-24"
         type="text"

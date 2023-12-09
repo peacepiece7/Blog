@@ -1,4 +1,4 @@
-import AdminLoginForm from '@/components/AdminLoginForm'
+import AdminLoginForm from '@/app/(Admin)/admin/(Login)/_components/LoginForm'
 
 // * 어드민 페이지는 정적으로 생성하지 않습니다.
 export const dynamic = 'force-dynamic'

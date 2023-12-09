@@ -2,6 +2,41 @@ import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 
 /**
+ * @description fetch API의 에러를 처리하는 함수입니다.
+ * Client Component에서 사용해주세요.
+ * Server Componenet에서 GET 요청 에러를 임의로 핸들링하면, 빌드 시점에서 에러가 발생할 가능성이 있습니다.
+ */
+export async function to<TResponse>(
+  promise: Promise<Response>
+): Promise<[ResponseBase<TResponse> | null, ErrorResponse | null]> {
+  try {
+    const res = await promise
+    if (res instanceof Response) {
+      const data: TResponse = await res.json()
+      return [
+        {
+          state: 'success',
+          data: data
+        },
+        null
+      ]
+    }
+    return [
+      {
+        state: 'success',
+        data: res
+      },
+      null
+    ]
+  } catch (error) {
+    if (error && typeof error === 'object' && 'message' in error && typeof error.message === 'string') {
+      return [null, { message: error.message }]
+    }
+    return [null, { message: '일부 요청을 처리하지 못했습니다.' }]
+  }
+}
+
+/**
  * @description 문자열 길이를 기준으로 즉정 패턴의 Hex Color를 반환합니다.
  */
 export const randomBrightColor = (str: string) => {

@@ -5,7 +5,7 @@ import LoadingWithSmile from '@/components/LoadingWithSmile'
 import ProgressBar from '@/components/ProgressBar'
 import { API_REVALIDATE_TIME, PAGE_REVALIDATE_TIME } from '@/constants'
 import { notFound } from 'next/navigation'
-import { getContentFetcher, getLogFetcher } from '@/apis'
+import { getContentFetcher, getLogFetcher } from '@/apis/server'
 import { Log } from '@/models'
 import { LOGS_TAG } from '@/constants/tag'
 
