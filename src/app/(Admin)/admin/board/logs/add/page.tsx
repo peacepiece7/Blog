@@ -6,7 +6,7 @@ import { fetcher } from '@/utils/server'
 export const dynamic = 'force-dynamic'
 
 export default async function AddPost() {
-  const { data: tags }: ResponseBase<Tag[]> = await fetcher('api/tags', {
+  const { data: tags } = await fetcher<Tag[]>('api/tags', {
     cache: 'no-cache'
   })
 

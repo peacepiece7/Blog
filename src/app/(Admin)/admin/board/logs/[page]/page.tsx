@@ -4,31 +4,17 @@ import { fetcher } from '@/utils/server'
 
 // * 어드민 페이지는 정적으로 생성하지 않습니다.
 export const dynamic = 'force-dynamic'
-
+const option: RequestInit = { cache: 'no-cache' }
 interface PostsProps {
   params: { page: string }
 }
 export default async function Posts({ params }: PostsProps) {
-  const { data: logs }: ResponseBase<Log[]> = await fetcher('api/logs', {
-    cache: 'no-cache'
-  })
-  const { data: thumbs }: ResponseBase<Thumb[]> = await fetcher(`api/thumbs`, {
-    cache: 'no-cache'
-  })
+  const [{ data: logs }, { data: thumbs }] = await Promise.all([
+    fetcher<Log[]>('apiTESTEORR!!!/logs', option),
+    fetcher<Thumb[]>('api/thumbs', option)
+  ])
 
-  const items = logs
-    .map((log) => {
-      const thumb = thumbs.find((thumb) => thumb.id === log.thumbnailId)
-      return {
-        id: log.id,
-        title: log.title,
-        svg: thumb?.source ?? undefined,
-        tags: log.tags,
-        createdAt: log.createdAt,
-        url: `/admin/board/logs/edit/${log.id}`
-      }
-    })
-    .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
+  const items = getItemsAsc(logs, thumbs)
 
   return (
     <div className="pl-8 pr-8 max-w-7xl m-auto">
@@ -36,4 +22,21 @@ export default async function Posts({ params }: PostsProps) {
       <PagenatedItems items={items} page={parseInt(params.page) - 1} />
     </div>
   )
+}
+
+function getItemsAsc(logs: Log[], thumbs: Thumb[]) {
+  return logs
+    .map((log) => {
+      const { id, title, tags, createdAt, thumbnailId } = log
+      const thumb = thumbs.find((t) => t.id === thumbnailId)
+      return {
+        id,
+        title,
+        svg: thumb?.source,
+        tags,
+        createdAt,
+        url: `/admin/board/logs/edit/${id}`
+      }
+    })
+    .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
 }
