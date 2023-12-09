@@ -1,7 +1,4 @@
 'use client' // Error components must be Client Components
-
-import { ErrorResponse } from '@/utils/server'
-
 export default function Error({ error, reset }: { error: ErrorResponse; reset: () => void }) {
   return (
     <div className="flex justify-center">
