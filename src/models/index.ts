@@ -1,4 +1,3 @@
-// * firebase response type
 export type Tag = {
   id: string
   name: string
@@ -21,7 +20,6 @@ export type Thumb = {
   source: string
 }
 
-// * fireabase document type (request type)
 export type LogDocument = {
   createdAt: string
   lastModifiedAt: string

@@ -2,8 +2,8 @@
 import ReactPaginate from 'react-paginate'
 import Items, { PagenationItem } from './Items'
 import { usePagenation } from '@/hooks/usePagenation'
-import './Pagenation.css'
 import SkeletonItems from './SkeletonItems'
+import './Pagenation.css'
 
 interface PagenationProps {
   itemsPerPage?: number

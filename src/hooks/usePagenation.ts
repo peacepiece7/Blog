@@ -16,7 +16,6 @@ export function usePagenation({ items, itemsPerPage, page, baseUrl }: Props) {
   const pathname = usePathname()
 
   useEffect(() => {
-    // * 현제 페이지의 아이템을 설정한다.
     const itemOffset = page * itemsPerPage
     const endOffset = itemOffset + itemsPerPage
     const currentItems = items.slice(itemOffset, endOffset)

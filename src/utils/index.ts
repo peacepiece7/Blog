@@ -3,8 +3,6 @@ import hljs from 'highlight.js'
 
 /**
  * @description fetch API의 에러를 처리하는 함수입니다.
- * Client Component에서 사용해주세요.
- * Server Componenet에서 GET 요청 에러를 임의로 핸들링하면, 빌드 시점에서 에러가 발생할 가능성이 있습니다.
  */
 export async function to<TResponse>(
   promise: Promise<Response>
@@ -122,13 +120,6 @@ export const addIdToHeaderTag = (html: string) => {
       return line.replace(/<h(\d)>/, `<h$1 id="${id}">`)
     })
     .join('\n')
-}
-
-/**
- * @description  process.env.NODE_ENV 에 따라 다른 URL을 반환합니다.
- */
-export const getBaseUrl = () => {
-  return process.env.NODE_ENV === 'development' ? `http://127.0.0.1:3000` : `https://${process.env.VERCEL_URL}`
 }
 
 /**
