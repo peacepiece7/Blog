@@ -1,0 +1,181 @@
+{
+  "state": "success",
+  "data": [
+    {
+      "id": "2s7akw3jI3mYP6qwFdKl",
+      "name": "Express",
+      "thumbnailId": "FRXhD65dF43w7T9dy0Z1"
+    },
+    {
+      "id": "33huzDiSzqBF2I9d9luK",
+      "name": "Terminal",
+      "thumbnailId": "GmxO6Wl3ozKll8VRRLAZ"
+    },
+    {
+      "id": "3eJap54rHNiZjPwzeIrq",
+      "name": "CSS",
+      "thumbnailId": "jSUsr0WKRurzrDaHcJeA"
+    },
+    {
+      "id": "654gYyOdANZxFg9GpbSe",
+      "thumbnailId": "uRJWn5dwixDQ2LRVZPLo",
+      "name": "Puppeteer"
+    },
+    {
+      "id": "6rklvoB2GF7VRyi1WDbm",
+      "thumbnailId": "GGK0SyI8IQ9yuBScf9hX",
+      "name": "Redux"
+    },
+    {
+      "id": "8YJd2knOt1DrWNCm9yTM",
+      "name": "Recoil",
+      "thumbnailId": "2jZ3E4jttf0kF9EG6B6y"
+    },
+    {
+      "id": "ACSNmPoConRGldkYVIaA",
+      "name": "React",
+      "thumbnailId": "gkbyHMsdZsDmwp1OiY7Y"
+    },
+    {
+      "id": "AXs08wmwWFpnZDHYOGNi",
+      "name": "HTML",
+      "thumbnailId": "6swHYBHWGUig8uSV0JVK"
+    },
+    {
+      "id": "AgPy1U9zTgHLfea02Mio",
+      "thumbnailId": "dFSD7NbZtwcA0cfY2619",
+      "name": "Browser"
+    },
+    {
+      "id": "DPPJ8KJXWwFEQRpvxcw8",
+      "name": "NodeJS",
+      "thumbnailId": "aCxTeyhwptkNettbH9lz"
+    },
+    {
+      "id": "DoeSgAeMs3lKP0EviYWK",
+      "thumbnailId": "7jEDkmmlp303RkBPucKZ",
+      "name": "Sanity"
+    },
+    {
+      "id": "HggwMk34E1FLjtuyIC5P",
+      "thumbnailId": "csCBIodJ02K7aqpnZKm3",
+      "name": "FastCampus"
+    },
+    {
+      "id": "KU5X3Df98SXvKQtzhZVi",
+      "thumbnailId": "KPaFHw64zpcYXcqC8CgJ",
+      "name": "Yarn"
+    },
+    {
+      "id": "MAKYFb1VPs7B2WxhTL7z",
+      "thumbnailId": "x6rjGGbNP9p2JLHWE7hN",
+      "name": "GitHub"
+    },
+    {
+      "id": "P02naL50xvcNCJezCwDo",
+      "name": "NPM",
+      "thumbnailId": "HoeMk8B0hGk0IA9op1i3"
+    },
+    {
+      "id": "PQyEfvp7YbexPeX2ClVV",
+      "thumbnailId": "BbcM0ymuG2BsoDS4ZWW5",
+      "name": "VSCode"
+    },
+    {
+      "id": "TcdqOh4gSBwgsltiyxwq",
+      "thumbnailId": "r7QE90OBhS8BzTxrYdKj",
+      "name": "Prettier"
+    },
+    {
+      "id": "UvmVnRdeVlCsO4E7UhNa",
+      "thumbnailId": "DpeRkM96QpNU7aiSFUgU",
+      "name": "Webpack"
+    },
+    {
+      "id": "ZGEWKXadaF79ZGR69L0L",
+      "thumbnailId": "wTirO967my1EnN74sOGh",
+      "name": "Next.js"
+    },
+    {
+      "id": "dC351gCrKQdLWGCOGaE7",
+      "name": "TypeScript",
+      "thumbnailId": "9tD8kfMJvqkhH0QVbv9s"
+    },
+    {
+      "id": "eNT3CedyF5DHmCSux9Ae",
+      "name": "Log",
+      "thumbnailId": "8T15JGFacyRuR0dKlmvR"
+    },
+    {
+      "id": "hHHoHRPJ38HzYewri8W5",
+      "thumbnailId": "H7SQXEiGRY4ThWJqTDnq",
+      "name": "Husky"
+    },
+    {
+      "id": "jPNurtwdIYtEmothCPti",
+      "thumbnailId": "TzKFq6G3pQijAZxqXXmj",
+      "name": "Apache"
+    },
+    {
+      "id": "k5qkfFC4b3k7cR6gnfsA",
+      "name": "CS",
+      "thumbnailId": "EjU4ABNLTYuqw6oRshwS"
+    },
+    {
+      "id": "lom9Ks6HXytwddWOQyih",
+      "thumbnailId": "LHnr8xBwYcm1cvMXFIOl",
+      "name": "AWS"
+    },
+    {
+      "id": "pfwEqkQfkA2dSZDcs2Ld",
+      "thumbnailId": "B14bpKvWyPt9VzmXkNE1",
+      "name": "Linux"
+    },
+    {
+      "id": "ppYB7B8jdr0AXcrGYLeq",
+      "thumbnailId": "IYEgxbDqDSiiOLg6WunR",
+      "name": "SASS"
+    },
+    {
+      "id": "r05gL8U3AmFVceVCLprK",
+      "name": "MongoDB",
+      "thumbnailId": "MSDkXteTOwCBh2e6tQnR"
+    },
+    {
+      "id": "rVQeyjW1aG440SfvMwQE",
+      "thumbnailId": "ZJbzkyZdYLIf2Fx0LteK",
+      "name": "Jober"
+    },
+    {
+      "id": "uJ2p0zo7y3CxN46YcriG",
+      "name": "Vercel",
+      "thumbnailId": "Qi4sk89pps2aA0zkIYG1"
+    },
+    {
+      "id": "uUSHiloiEK1jKY5VGgjM",
+      "name": "MySQL",
+      "thumbnailId": "7Uodd2FRkwsrZvUeqtjW"
+    },
+    {
+      "id": "usJEISiXVnUrho4v78jq",
+      "thumbnailId": "WmXB2FzA7OzrUvLMNNCS",
+      "name": "Vue"
+    },
+    {
+      "id": "ydzZOvJy2lrutYHI3QHR",
+      "thumbnailId": "JsvMw4sxEUk66wDd6PxE",
+      "name": "ESLint"
+    },
+    {
+      "id": "z1Tcr5aP7exE7znBc5EG",
+      "thumbnailId": "1E8dITtozPqpnMQdfnej",
+      "name": "Vite"
+    },
+    {
+      "id": "za9egBb6BGMB7GyRotbA",
+      "name": "JavaScript",
+      "thumbnailId": "F9blwicTlkPmN5naxDHj"
+    }
+  ],
+  "message": "태그 조회에 성공했습니다."
+}

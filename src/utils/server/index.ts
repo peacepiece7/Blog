@@ -9,6 +9,7 @@ export const fetcher = async <T>(url: string, options?: RequestInit) => {
   if (process.env.NEXT_PUBLIC_VERCEL_URL) baseUrl = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   console.log(`fetcher request : ${baseUrl}/${url}`)
   const res: ResponseBase<T> = await fetch(`${baseUrl}/${url}`, options).then((res) => res.json())
+  console.log('RESPONSE : ', res)
   return res
 }
 

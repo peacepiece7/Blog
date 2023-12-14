@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "data": {
+    "id": "0F4UOpeehoT0FKPNjUw1",
+    "title": "프로토타입",
+    "thumbnailId": "F9blwicTlkPmN5naxDHj",
+    "storagePath": "markdown/prototype-16f40120-7c03-11ee-82c2-d9c14b22e955.md",
+    "createdAt": "2023-11-01",
+    "lastModifiedAt": "2023-11-01",
+    "tags": ["React", "Express"]
+  },
+  "message": "로그 조회에 성공했습니다."
+}
