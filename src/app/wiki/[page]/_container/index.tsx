@@ -10,7 +10,7 @@ interface LogPageContainerProps {
 }
 export function WikiPageContainer({ logs, thumbs, params }: LogPageContainerProps) {
   const { page } = params
-  const items = getItemsByTag(logs, thumbs, 'Log')
+  const items = excludeItemsWithTag('Log', logs, thumbs)
 
   return (
     <div className="max-w-7xl inset-0 m-auto pl-5 pr-5 mb-12 mt-24">
@@ -20,9 +20,9 @@ export function WikiPageContainer({ logs, thumbs, params }: LogPageContainerProp
   )
 }
 
-function getItemsByTag(logs: Log[], thumbs: Thumb[], tagName: string) {
+function excludeItemsWithTag(tagName: string, logs: Log[], thumbs: Thumb[]) {
   return logs
-    .filter((log) => log.tags.includes(tagName))
+    .filter((log) => !log.tags.includes(tagName))
     .map((log) => {
       const thumb = thumbs.find((thumb) => thumb.id === log.thumbnailId)
       return {
