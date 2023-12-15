@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:test": "cross-env API_MOCKING=enabled next dev",
     "build": "cross-env NODE_BUILD=build next build",
     "start": "next start",
     "lint": "next lint",
-    "cy:open": "cypress open --e2e --browser chrome",
-    "cy:run": "cypress run --e2e --browser chrome --headless"
+    "cy:open": "cross-env API_MOCKING=enabled cypress open --e2e --browser chrome",
+    "cy:run": "API_MOCKING=enabled cypress run --e2e --browser chrome --headless",
+    "mock-server": "json-server --watch data/db.json --routes data/routes.json --port 3030"
   },
   "dependencies": {
     "dayjs": "^1.11.9",
@@ -37,6 +39,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.3",
     "husky": "^8.0.3",
+    "json-server": "^0.17.4",
     "postcss": "8.4.23",
     "server-only": "^0.0.1",
     "tailwindcss": "3.3.2",

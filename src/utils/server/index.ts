@@ -7,9 +7,9 @@ import 'server-only'
 export const fetcher = async <T>(url: string, options?: RequestInit) => {
   let baseUrl = 'http://localhost:3000'
   if (process.env.NEXT_PUBLIC_VERCEL_URL) baseUrl = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  if (process.env.API_MOCKING === 'enabled') baseUrl = 'http://localhost:3030'
   console.log(`fetcher request : ${baseUrl}/${url}`)
   const res: ResponseBase<T> = await fetch(`${baseUrl}/${url}`, options).then((res) => res.json())
-  console.log('RESPONSE : ', res)
   return res
 }
 

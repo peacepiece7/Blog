@@ -1,10 +1,9 @@
-describe('My First Test', () => {
+describe('/ visit rending page', () => {
   beforeEach(() => {
-    cy.viewport(1200, 800)
     cy.visit('/')
   })
 
-  it('renders', () => {
+  it('renders coorectly', () => {
     cy.contains('TaeUk Jung')
     cy.contains('Latest Logs')
     cy.title().should('eq', 'Web Log')
