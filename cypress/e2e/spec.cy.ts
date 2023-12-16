@@ -7,6 +7,5 @@ describe('/ visit rending page', () => {
     cy.contains('TaeUk Jung')
     cy.contains('Latest Logs')
     cy.title().should('eq', 'Web Log')
-    cy.title().should('eq', 'FFF')
   })
 })

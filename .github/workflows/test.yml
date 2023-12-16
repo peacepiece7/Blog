@@ -1,0 +1,35 @@
+name: Client Test
+
+on:
+  push:
+    branches: [main, deploy, develop]
+
+  pull_request:
+    branches: [main, deploy, develop]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: true
+
+    steps:
+      - name: ✅ Repository 소스 코드를 가져옵니다.
+        uses: actions/checkout@v3
+
+      - name: 🪐 ${{ matrix.node-version }} 버전의 노드로 세팅합니다.
+        uses: actions/setup-node@v3
+        with:
+          node-version: [18.16.0]
+
+      - name: 🪐 Dependencies를 설치합니다.
+        uses: cypress-io/github-action@v5
+        with:
+          working-directory: client
+          install-command: npm install
+          parallel: true
+          start: npm run mock & npm run dev:test
+          wait-on: 'http://localhost:3000'
+          command: yarn cypress:run

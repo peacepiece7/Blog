@@ -6,8 +6,6 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       on('after:run', () => {
         console.log("Killing 'npm run dev:test' and 'npm run mock'...")
-        console.log('CONFIG :', config)
-        process.exit()
       })
     }
   },
