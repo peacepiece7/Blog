@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "cy:open": "cross-env API_MOCKING=enabled cypress open --e2e --browser chrome",
-    "cy:run": "cross-env API_MOCKING=enabled cypress run --e2e --browser chrome --headless",
+    "cy:run": "cross-env API_MOCKING=enabled cypress run --e2e --browser chrome",
     "mock": "json-server --watch data/db.json --routes data/routes.json --port 3030"
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "@types/node": "20.2.1",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
+    "@types/rimraf": "^4.0.5",
     "@types/uuid": "^9.0.2",
     "autoprefixer": "10.4.14",
     "cross-env": "^7.0.3",
@@ -41,6 +42,7 @@
     "husky": "^8.0.3",
     "json-server": "^0.17.4",
     "postcss": "8.4.23",
+    "rimraf": "^3.0.2",
     "server-only": "^0.0.1",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"

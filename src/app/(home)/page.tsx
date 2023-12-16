@@ -19,8 +19,6 @@ export default async function HomePage() {
     getLogsFetcher<Log[]>('api/logs', option),
     getThumbsFetcher<Thumb[]>('api/thumbs', option)
   ])
-  console.log('LOGS :', logs)
-  console.log('THUMBS :', thumbs)
 
   if (!logs || !thumbs) notFound()
 
