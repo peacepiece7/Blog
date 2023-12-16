@@ -2,7 +2,7 @@ name: Client Test
 
 on:
   push:
-    branches: [main, deploy, develop]
+    branches: [deploy, develop]
 
   pull_request:
     branches: [main, deploy, develop]
@@ -30,7 +30,9 @@ jobs:
 
       - name: 🪐 테스트를 진행합니다.
         uses: cypress-io/github-action@v5
-        working-directory: ./
         with:
+          working-directory: ./
           parallel: true
-          start: node ./scripts/runE2ETest.cjs
+          start: npm run dev
+          wait-on: 'http://localhost:3000'
+          command: npm run cy:run
