@@ -9,8 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "cy:open": "cross-env API_MOCKING=enabled cypress open --e2e --browser chrome",
-    "cy:run": "API_MOCKING=enabled cypress run --e2e --browser chrome --headless",
-    "mock-server": "json-server --watch data/db.json --routes data/routes.json --port 3030"
+    "cy:run": "cross-env API_MOCKING=enabled cypress run --e2e --browser chrome --headless",
+    "mock": "json-server --watch data/db.json --routes data/routes.json --port 3030"
   },
   "dependencies": {
     "dayjs": "^1.11.9",

@@ -4,7 +4,10 @@ export default defineConfig({
   e2e: {
     baseUrl: `http://localhost:${process.env.PORT || 3000}`,
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on('after:run', () => {
+        console.log("Killing 'npm run dev:test' and 'npm run mock'...")
+        process.exit()
+      })
     }
   },
   component: {
