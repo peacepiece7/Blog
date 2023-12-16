@@ -15,7 +15,7 @@ export default function SkeletonItems({ items }: SkeletonItemsProps) {
   }, [])
 
   return (
-    <div id="item-skeleton">
+    <ul id="item-skeleton">
       {Array(items)
         .fill(0)
         .map((_, i) => {
@@ -34,6 +34,6 @@ export default function SkeletonItems({ items }: SkeletonItemsProps) {
             </div>
           )
         })}
-    </div>
+    </ul>
   )
 }

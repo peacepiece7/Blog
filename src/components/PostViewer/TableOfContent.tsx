@@ -5,7 +5,6 @@ interface TOCProps {
   content: string
 }
 export default function TableOfContent({ content }: TOCProps) {
-  console.log('TOC :', content)
   const toc = createToc(content ?? '')
     .map((content) => {
       return `<li data-level="${content.level}"><a href="#${content.text.replaceAll(' ', '_')}" >

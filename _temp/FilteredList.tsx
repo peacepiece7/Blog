@@ -12,11 +12,11 @@ export default function FilteredList({ basePath, logs, thumbs }: FilteredListPro
   if (!logs || !thumbs) return <div>loading...</div>
 
   return (
-    <div>
+    <ul id="postList">
       {logs.map((log) => {
         const thumb = thumbs.find((thumb) => log.thumbnailId === thumb.id)
         return (
-          <div key={log.id} className="flex hover:drop-shadow-xl p-4 transition ease-in-out bg-white rounded-xl mt-12">
+          <li key={log.id} className="flex hover:drop-shadow-xl p-4 transition ease-in-out bg-white rounded-xl mt-12">
             <div className="pb-4 flex-1">
               <Link prefetch={false} href={`${basePath}/${log.id}`}>
                 <div
@@ -38,9 +38,9 @@ export default function FilteredList({ basePath, logs, thumbs }: FilteredListPro
                 <p className="text-end pt-4">{`Created At : ${log.createdAt}`}</p>
               </Link>
             </div>
-          </div>
+          </li>
         )
       })}
-    </div>
+    </ul>
   )
 }

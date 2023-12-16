@@ -16,13 +16,6 @@ const fetchFirebaseConfig = () => {
     measurementId: process.env.FIREBASE_MEASUREMENT_ID
   }
 
-  if (process.env.NODE_BUILD === 'build') {
-    console.log('NODE_BUILD 출력 확인')
-  } else {
-    console.log('NODE_BUILD가 출력되지 않습니다.')
-  }
-
-  console.log('is single ton instance?')
   return firebaseConfig
 }
 

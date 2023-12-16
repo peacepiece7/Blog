@@ -13,12 +13,6 @@ const fetchFirebaseConfig = () => {
     measurementId: process.env.FIREBASE_MEASUREMENT_ID
   }
 
-  if (process.env.NODE_BUILD === 'build') {
-    console.log('🏛️🔨 build time 🏛️🔨')
-  } else {
-    console.log(`🚌🚎 ${process.env.NODE_ENV} run time 🚗🚕`)
-  }
-
   return firebaseConfig
 }
 

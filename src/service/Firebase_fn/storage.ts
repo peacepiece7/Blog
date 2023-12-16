@@ -10,7 +10,6 @@ const storage = getStorage(init)
 
 export const getContentDataCache = async (_ref?: string) => {
   try {
-    console.log('getContentDataCache가 호출되었습니다.')
     if (!_ref) {
       console.warn('ref is not defined')
       return ''

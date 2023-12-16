@@ -2,7 +2,7 @@ name: Client Test
 
 on:
   push:
-    branches: [deploy, develop]
+    branches: [main, deploy, develop]
 
   pull_request:
     branches: [main, deploy, develop]

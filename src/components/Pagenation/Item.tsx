@@ -9,7 +9,7 @@ interface ItemProps {
 }
 export default function Item({ item }: ItemProps) {
   return (
-    <div className="flex hover:drop-shadow-xl p-4 transition ease-in-out bg-white rounded-xl mt-12">
+    <li className="flex hover:drop-shadow-xl p-4 transition ease-in-out bg-white rounded-xl mt-12">
       <div className="pb-4 flex-1">
         <Link prefetch={false} href={item.url ? item.url : '/'}>
           {item.svg && (
@@ -36,6 +36,6 @@ export default function Item({ item }: ItemProps) {
           {item.createdAt && <p className="text-end pt-4">{`Created At : ${item.createdAt}`}</p>}
         </Link>
       </div>
-    </div>
+    </li>
   )
 }

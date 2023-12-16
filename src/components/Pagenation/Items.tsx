@@ -16,10 +16,10 @@ interface ItemsProps {
 
 export default function Items({ items }: ItemsProps) {
   return (
-    <div className="pt-12">
+    <ul id="postList" className="pt-12">
       {items.map((item) => {
         return <Item key={item.id} item={item} />
       })}
-    </div>
+    </ul>
   )
 }
