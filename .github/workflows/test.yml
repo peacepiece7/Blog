@@ -22,14 +22,15 @@ jobs:
       - name: 🪐 ${{ matrix.node-version }} 버전의 노드로 세팅합니다.
         uses: actions/setup-node@v3
         with:
-          node-version: [18.16.0]
+          node-version: 18.16.0
 
       - name: 🪐 Dependencies를 설치합니다.
+        working-directory: ./
+        run: npm install
+
+      - name: 🪐 테스트를 진행합니다.
         uses: cypress-io/github-action@v5
+        working-directory: ./
         with:
-          working-directory: client
-          install-command: npm install
           parallel: true
-          start: npm run mock & npm run dev:test
-          wait-on: 'http://localhost:3000'
-          command: yarn cypress:run
+          start: node ./scripts/runE2ETest.cjs
