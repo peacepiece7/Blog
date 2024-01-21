@@ -43,7 +43,6 @@
 }
 #markdown-body * {
   /* font-family: var(--font-azeret-mono); */
-  font-weight: 300;
   line-height: 1.2rem;
 }
 #markdown-body strong {
@@ -101,7 +100,7 @@
 #markdown-body p,
 #markdown-body li {
   margin: 0.5rem 0rem;
-  word-spacing: -0.2rem;
+  /* word-spacing: -0.2rem; */
   line-height: 1.5rem;
   color: black;
 }
