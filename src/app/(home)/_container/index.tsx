@@ -1,3 +1,4 @@
+import { WikiLink } from '@/components/Link/WikiLink'
 import { Pagenation } from '@/components/Pagenation/Pagenation'
 import { Profile } from '@/components/Profile/Profile'
 import { Log, Thumb } from '@/models'
@@ -18,11 +19,7 @@ export function HomeContainer({ logs, thumbs }: HomeContainerProps) {
           <Pagenation items={items} page={0} baseUrl="/logs" pageRangeDisplayed={10} />
         </section>
         <div />
-        <div className="text-right">
-          <Link className="inline-block p-8 hover:font-bold transition-all ease-in-out" href="wiki/1">
-            {'더 많은 포스트(Wiki) 보러 가기->'}
-          </Link>
-        </div>
+        <WikiLink />
       </div>
     </div>
   )
