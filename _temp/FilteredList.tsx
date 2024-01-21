@@ -12,7 +12,7 @@ export default function FilteredList({ basePath, logs, thumbs }: FilteredListPro
   if (!logs || !thumbs) return <div>loading...</div>
 
   return (
-    <ul id="postList">
+    <ul id="postList" className="max-w-5xl p-0 pt-12 m-auto">
       {logs.map((log) => {
         const thumb = thumbs.find((thumb) => log.thumbnailId === thumb.id)
         return (
@@ -23,8 +23,8 @@ export default function FilteredList({ basePath, logs, thumbs }: FilteredListPro
                   className="w-[120px] h-[120px] flex justify-center items-center rounded-md overflow-hidden"
                   dangerouslySetInnerHTML={{ __html: thumb?.source ? thumb.source : '' }}
                 />
-                <h2 className="text-2xl pt-4">{log.title}</h2>
-                <p className="text-end pt-4">
+                <h2 className="text-2xl pt-4 m-0">{log.title}</h2>
+                <p className="text-end pt-4 m-0 mt-2">
                   Tags :
                   {log.tags.map((name) => {
                     const rgb = randomBrightColor(name)
@@ -35,7 +35,7 @@ export default function FilteredList({ basePath, logs, thumbs }: FilteredListPro
                     )
                   })}
                 </p>
-                <p className="text-end pt-4">{`Created At : ${log.createdAt}`}</p>
+                <p className="text-end pt-4 m-0 mt-2">{`Created At : ${log.createdAt}`}</p>
               </Link>
             </div>
           </li>

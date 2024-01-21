@@ -16,7 +16,7 @@ interface ItemsProps {
 
 export default function Items({ items }: ItemsProps) {
   return (
-    <ul id="postList" className="pt-12">
+    <ul id="postList" className="max-w-5xl p-0 pt-12 m-auto">
       {items.map((item) => {
         return <Item key={item.id} item={item} />
       })}

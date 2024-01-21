@@ -71,10 +71,10 @@ tbody th {
   background-color: #f8f8f8;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 784px) {
   html,
   body {
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 @media screen and (max-width: 480px) {

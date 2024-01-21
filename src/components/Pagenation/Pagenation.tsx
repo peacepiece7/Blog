@@ -12,7 +12,13 @@ interface PagenationProps {
   baseUrl?: string
   pageRangeDisplayed?: number
 }
-export const Pagenation = ({ itemsPerPage = 5, page = 0, items, baseUrl, pageRangeDisplayed = 5 }: PagenationProps) => {
+export const Pagenation = ({
+  itemsPerPage = 10,
+  page = 0,
+  items,
+  baseUrl,
+  pageRangeDisplayed = 5
+}: PagenationProps) => {
   const { curPageItem, pageCnt, onPageChange } = usePagenation({ items, itemsPerPage, page, baseUrl })
 
   return (
