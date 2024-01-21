@@ -45,15 +45,15 @@ jobs:
         working-directory: ./
         run: npm install
 
-      - name: 🪐 Mock Server를 실행합니다.
-        run: npm run mock
+      - name: 🪐 E2E 테스트를 진행합니다.
+        run: node ./scripts/runE2ETest.cjs
         working-directory: ./
 
-      - name: 🪐 테스트를 진행합니다.
-        uses: cypress-io/github-action@v5
-        with:
-          working-directory: ./
-          parallel: true
-          start: npm run dev:test
-          wait-on: 'http://localhost:3000'
-          command: npm run cy:run
+      # - name: 🪐 테스트를 진행합니다.
+      #   uses: cypress-io/github-action@v5
+      #   with:
+      #     working-directory: ./
+      #     parallel: true
+      #     start: npm run dev:test
+      #     wait-on: 'http://localhost:3000'
+      #     command: npm run cy:run
