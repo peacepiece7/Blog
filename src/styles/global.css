@@ -11,18 +11,9 @@ html {
 }
 * {
   box-sizing: border-box;
-  letter-spacing: 0.07rem;
-  font-weight: 300;
   line-height: 1rem;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  word-spacing: -0.2rem;
-}
+
 ul,
 li {
   list-style: none;
@@ -80,10 +71,10 @@ tbody th {
   background-color: #f8f8f8;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 784px) {
   html,
   body {
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 @media screen and (max-width: 480px) {

@@ -28,27 +28,35 @@ export default async function Header() {
     <header id="header" className="border-b-2">
       <div className="flex justify-between pr-4 pl-4">
         <div className="hover:text-red-500 transition-all">
-          <Link prefetch={false} href="/">
+          <Link prefetch={process.env.NODE_ENV === 'production'} href="/">
             <p>PEACE</p>
             <p>PIECE</p>
           </Link>
         </div>
         <nav className="flex items-center">
-          <ul className="flex justify-between">
+          <div className="flex justify-between">
             <li className="pr-4">
-              <Link href="/logs/1" prefetch={false} className="hover:text-red-500 transition-all">
+              <Link
+                href="/logs/1"
+                prefetch={process.env.NODE_ENV === 'production'}
+                className="hover:text-red-500 transition-all"
+              >
                 Log
               </Link>
             </li>
             <li className="pr-4">
-              <Link href="/wiki/1" prefetch={false} className="hover:text-red-500 transition-all">
+              <Link
+                href="/wiki/1"
+                prefetch={process.env.NODE_ENV === 'production'}
+                className="hover:text-red-500 transition-all"
+              >
                 Wiki
               </Link>
             </li>
             <li className="pr-4">
               <HeaderTags logs={logs} tags={tags} />
             </li>
-          </ul>
+          </div>
         </nav>
       </div>
     </header>

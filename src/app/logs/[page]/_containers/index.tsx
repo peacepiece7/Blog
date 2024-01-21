@@ -1,3 +1,4 @@
+import { WikiLink } from '@/components/Link/WikiLink'
 import { Pagenation } from '@/components/Pagenation/Pagenation'
 import { Log, Thumb } from '@/models'
 
@@ -13,6 +14,7 @@ export function LogPageContainer({ logs, thumbs, page }: LogPageContainerProps) 
     <div className="max-w-7xl inset-0 m-auto pl-5 pr-5 mb-12 mt-24">
       <h1 className="mb-4">Logs</h1>
       <Pagenation items={items} page={parseInt(page) - 1} pageRangeDisplayed={10} />
+      <WikiLink />
     </div>
   )
 }

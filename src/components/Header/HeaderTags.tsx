@@ -1,7 +1,8 @@
 'use client'
 import { Log, Tag } from '@/models'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
+import { Drawer } from '../Drawer'
 
 interface HeaderTagsProps {
   logs: Log[]
@@ -9,14 +10,6 @@ interface HeaderTagsProps {
 }
 export function HeaderTags({ logs, tags }: HeaderTagsProps) {
   const [isOpen, setIsOpen] = useState(false)
-
-  useEffect(() => {
-    window.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement
-      if (target.id === 'tagBtn') return
-      setIsOpen(false)
-    })
-  }, [])
 
   const tagList = tags?.map((tag) => {
     let cnt = 0
@@ -36,12 +29,7 @@ export function HeaderTags({ logs, tags }: HeaderTagsProps) {
       <p id="tagBtn" onClick={openMenu} className="cursor-pointer m-0 hover:text-red-500 transition-all">
         Tag
       </p>
-      {/* PORTAL로 보낼까? */}
-      <div
-        id="tagMenu"
-        className={`absolute top-[70px] right-0 bg-white z-20 border-black border-solid transition-all overflow-hidden
-        ${isOpen ? 'w-[400px] border-[1px]' : 'border-0 w-0'}`}
-      >
+      <Drawer open={isOpen} onClose={openMenu}>
         <ul className="p-0">
           {tagList &&
             tagList
@@ -53,8 +41,13 @@ export function HeaderTags({ logs, tags }: HeaderTagsProps) {
               })
               .map((tag) => {
                 return (
-                  <Link prefetch={false} className="block w-full" href={`/tags/${tag.name}/1`} key={tag.id}>
-                    <li className="mt-4 pl-12 p-4 text-left rounded-md hover:text-red-500 transition-all">
+                  <Link
+                    prefetch={process.env.NODE_ENV === 'production'}
+                    className="block w-full"
+                    href={`/tags/${tag.name}/1`}
+                    key={tag.id}
+                  >
+                    <li className="mt-4 pl-4 p-2 text-left rounded-md hover:text-red-500 transition-all" key={tag.id}>
                       <span>{tag.name}</span>
                       <span className="pl-4 text-gray-400">{`(${tag.cnt})`}</span>
                     </li>
@@ -62,7 +55,7 @@ export function HeaderTags({ logs, tags }: HeaderTagsProps) {
                 )
               })}
         </ul>
-      </div>
+      </Drawer>
     </div>
   )
 }
