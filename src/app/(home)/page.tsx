@@ -22,5 +22,11 @@ export default async function HomePage() {
 
   if (!logs || !thumbs) notFound()
 
-  return <HomeContainer logs={logs} thumbs={thumbs} />
+  return (
+    <>
+      <main>
+        <HomeContainer logs={logs} thumbs={thumbs} />
+      </main>
+    </>
+  )
 }

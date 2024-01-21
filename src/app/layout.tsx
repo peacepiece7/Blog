@@ -13,10 +13,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="kor" className={`${inter.className}`}>
       <body>
-        <div className="min-h-[100vh]">
+        <div id="portal" className="min-h-[100dvh]">
           {/* @ts-ignore */}
           <Header />
-          <main>{children}</main>
+          {children}
         </div>
       </body>
     </html>
